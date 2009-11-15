@@ -5,6 +5,16 @@ use warnings;
 package Dist::Zilla::Plugin::Git;
 # ABSTRACT: update your git repository after release
 
+use Moose;
+use MooseX::Has::Sugar;
+use MooseX::Types::Moose qw{ Str };
+
+
+# -- attributes
+
+has filename => ( ro, isa=>Str, default => 'Changes' );
+
+
 
 1;
 __END__
@@ -14,6 +24,7 @@ __END__
 In your F<dist.ini>:
 
     [Git]
+    filename = Changes      ; this is the default
 
 =head1 DESCRIPTION
 
@@ -34,6 +45,14 @@ configured in your local repository.
 
 =back
 
+
+The plugin accepts the following options:
+
+=over 4
+
+=item * filename - the name of your changelog file. defaults to F<Changes>.
+
+=back
 
 
 =head1 SEE ALSO
