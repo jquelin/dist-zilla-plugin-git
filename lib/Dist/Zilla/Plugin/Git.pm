@@ -67,6 +67,7 @@ __END__
 =for Pod::Coverage::TrustPod
     before_release
 
+
 =head1 SYNOPSIS
 
 In your F<dist.ini>:
@@ -74,7 +75,41 @@ In your F<dist.ini>:
     [Git]
     filename = Changes      ; this is the default
 
+
 =head1 DESCRIPTION
+
+This plugin does two things for module authors using L<git|http://git-
+scm.com> to track their work:
+
+=over 4
+
+=item * before releasing: checks that git is in a clean state
+
+=item * after releasing: perform some simple git actions
+
+=back
+
+
+=head2 Checks before releasing
+
+The following checks are performed before releasing:
+
+=over 4
+
+=item * there should be no files in the index (staged copy)
+
+=item * there should be no untracked files in the working copy
+
+=item * the working copy should be clean. The changelog and F<dist.ini>
+can be modified locally, though.
+
+=back
+
+If those conditions are not met, the plugin will die, and the release
+will then be aborted. This lets you fix the problems before continuing.
+
+
+=head2 Simple git actions after releasing
 
 This plugin is called after you released your distribution, and does the
 following actions:
