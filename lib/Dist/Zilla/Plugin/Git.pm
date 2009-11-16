@@ -98,6 +98,15 @@ scm.com> to track their work:
 =back
 
 
+The plugin accepts the following options:
+
+=over 4
+
+=item * filename - the name of your changelog file. defaults to F<Changes>.
+
+=back
+
+
 =head2 Checks before releasing
 
 The following checks are performed before releasing:
@@ -119,8 +128,8 @@ will then be aborted. This lets you fix the problems before continuing.
 
 =head2 Simple git actions after releasing
 
-This plugin is called after you released your distribution, and does the
-following actions:
+Once the release is done, this plugin will record this fact in git. The
+following actions are then performed:
 
 =over 4
 
@@ -137,13 +146,6 @@ configured in your local repository.
 =back
 
 
-The plugin accepts the following options:
-
-=over 4
-
-=item * filename - the name of your changelog file. defaults to F<Changes>.
-
-=back
 
 
 =head1 SEE ALSO
