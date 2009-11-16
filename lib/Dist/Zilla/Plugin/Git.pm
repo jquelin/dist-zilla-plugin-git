@@ -90,6 +90,9 @@ sub after_release {
         $git->add( 'dist.ini', $self->filename );
         $git->commit( { file=>$filename } );
     }
+
+    # create a tag with the new version
+    $git->tag( "v$newver" );
 }
 
 
