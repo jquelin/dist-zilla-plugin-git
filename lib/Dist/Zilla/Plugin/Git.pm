@@ -57,8 +57,6 @@ sub before_release {
             join "\n", map { "\t$_" } @output;
         die "$errmsg\n";
     }
-
-    die "DO NOT PASS";
 }
 
 
