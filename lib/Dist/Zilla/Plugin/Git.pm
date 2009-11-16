@@ -93,6 +93,10 @@ sub after_release {
 
     # create a tag with the new version
     $git->tag( "v$newver" );
+
+    # push everything on remote end
+    $git->push;
+    $git->push( { tags=>1 } );
 }
 
 
