@@ -32,7 +32,7 @@ sub before_release {
     @output = $git->diff( { cached=>1, 'name-status'=>1 } );
     if ( @output ) {
         my $errmsg =
-            "[Git] branch $branch has some changes staged for commit\n" .
+            "[Git] branch $branch has some changes staged for commit:\n" .
             join "\n", map { "\t$_" } @output;
         die "$errmsg\n";
     }
