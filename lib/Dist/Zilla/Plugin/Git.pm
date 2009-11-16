@@ -64,6 +64,9 @@ sub before_release {
 1;
 __END__
 
+=for Pod::Coverage::TrustPod
+    before_release
+
 =head1 SYNOPSIS
 
 In your F<dist.ini>:
