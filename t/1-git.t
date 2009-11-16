@@ -7,7 +7,7 @@ use Git::Wrapper;
 use File::Spec::Functions qw{ catdir catfile };
 use IPC::Open3            qw{ open3 };
 use Symbol;
-use Test::More            tests => 4;
+use Test::More            tests => 5;
 
 
 # build fake repository
@@ -36,6 +36,11 @@ $git->checkout( 'foobar' );
 
 # everything should be ok
 is( check_dzil_release(), '', 'nothing preventing release' );
+
+# changelog and dist.ini can be modified
+append_to_file('Changes',  "\n");
+append_to_file('dist.ini', "\n");
+is( check_dzil_release(), '', 'Changes and dist.ini can be modified' );
 
 # 
 exit;
