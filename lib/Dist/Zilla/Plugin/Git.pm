@@ -37,6 +37,18 @@ sub before_release {
         die "$errmsg\n";
     }
 
+    # everything but changelog and dist.ini should be in a clean state
+    @output =
+        grep { $_ ne $self->filename }
+        grep { $_ ne 'dist.ini' }
+        $git->ls_files( { modified=>1, deleted=>1 } );
+    if ( @output ) {
+        my $errmsg =
+            "[Git] branch $branch has some uncommitted files:\n" .
+            join "\n", map { "\t$_" } @output;
+        die "$errmsg\n";
+    }
+
     # no files should be untracked
     @output = $git->ls_files( { others=>1, 'exclude-standard'=>1 } );
     if ( @output ) {
