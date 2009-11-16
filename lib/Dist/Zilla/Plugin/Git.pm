@@ -5,14 +5,41 @@ use warnings;
 package Dist::Zilla::Plugin::Git;
 # ABSTRACT: update your git repository after release
 
+use Git::Wrapper;
 use Moose;
 use MooseX::Has::Sugar;
 use MooseX::Types::Moose qw{ Str };
+
+with 'Dist::Zilla::Role::BeforeRelease';
 
 
 # -- attributes
 
 has filename => ( ro, isa=>Str, default => 'Changes' );
+
+
+sub before_release {
+    my $self = shift;
+    my $git = Git::Wrapper->new('.');
+    my @output;
+
+    # fetch current branch
+    my ($branch) =
+        map { /^\*\s+(.+)/ ? $1 : () }
+        $git->branch;
+
+    # check if some changes are staged for commit
+    @output = $git->diff( { cached=>1, 'name-status'=>1 } );
+    if ( @output ) {
+        my $errmsg =
+            "[Git] branch $branch has some changes staged for commit\n" .
+            join "\n", map { "\t$_" } @output;
+        die "$errmsg\n";
+    }
+
+
+    die "DO NOT PASS";
+}
 
 
 
