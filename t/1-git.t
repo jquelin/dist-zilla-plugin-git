@@ -3,8 +3,11 @@
 use strict;
 use warnings;
 
-use Git::Wrapper;
+use Cwd;
+use File::Temp            qw{ tempdir };
+use File::pushd;
 use File::Spec::Functions qw{ catdir catfile };
+use Git::Wrapper;
 use IPC::Open3            qw{ open3 };
 use Symbol;
 use Test::More            tests => 6;
@@ -33,6 +36,17 @@ $git->commit( { message => 'initial commit' } );
 append_to_file('foobar', 'Foo-*');
 like( check_dzil_release(), qr/uncommitted files/, 'uncommitted files' );
 $git->checkout( 'foobar' );
+
+# create a clone, and use it to set up origin
+my $clone = tempdir( CLEANUP => 1 );
+my $curr  = getcwd;
+{
+    chdir $clone;
+    system qq{ git clone $curr };
+}
+chdir $curr;
+$git->remote('add', 'origin', catdir($clone, 'foo'));
+
 
 # changelog and dist.ini can be modified
 append_to_file('Changes',  "\n");
