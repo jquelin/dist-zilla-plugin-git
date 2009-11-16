@@ -37,6 +37,14 @@ sub before_release {
         die "$errmsg\n";
     }
 
+    # no files should be untracked
+    @output = $git->ls_files( { others=>1, 'exclude-standard'=>1 } );
+    if ( @output ) {
+        my $errmsg =
+            "[Git] branch $branch has some untracked files:\n" .
+            join "\n", map { "\t$_" } @output;
+        die "$errmsg\n";
+    }
 
     die "DO NOT PASS";
 }
