@@ -60,11 +60,19 @@ sub before_release {
 }
 
 
+sub after_release {
+	my $self = shift;
+
+}
+
+
+
 
 1;
 __END__
 
 =for Pod::Coverage::TrustPod
+    after_release
     before_release
 
 
