@@ -7,7 +7,7 @@ use Git::Wrapper;
 use File::Spec::Functions qw{ catdir catfile };
 use IPC::Open3            qw{ open3 };
 use Symbol;
-use Test::More            tests => 5;
+use Test::More            tests => 6;
 
 
 # build fake repository
@@ -34,15 +34,17 @@ append_to_file('foobar', 'Foo-*');
 like( check_dzil_release(), qr/uncommitted files/, 'uncommitted files' );
 $git->checkout( 'foobar' );
 
-# everything should be ok
-is( check_dzil_release(), '', 'nothing preventing release' );
-
 # changelog and dist.ini can be modified
 append_to_file('Changes',  "\n");
 append_to_file('dist.ini', "\n");
 is( check_dzil_release(), '', 'Changes and dist.ini can be modified' );
 
-# 
+# check if tag has been correctly created
+my @tags = $git->tag;
+is( scalar(@tags), 1, 'one tag created' );
+is( $tags[0], 'v1.23', 'new tag created after new version' );
+
+#
 exit;
 
 sub append_to_file {
