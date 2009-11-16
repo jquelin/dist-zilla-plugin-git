@@ -41,9 +41,9 @@ is( check_dzil_release(), '', 'nothing preventing release' );
 exit;
 
 sub append_to_file {
-    my ($file, $line) = @_;
+    my ($file, @lines) = @_;
     open my $fh, '>>', $file or die "can't open $file: $!";
-    print $fh 'Foo-*';
+    print $fh @lines;
     close $fh;
 }
 
