@@ -85,7 +85,7 @@ sub after_release {
 
         # write commit message in a temp file
         my ($fh, $filename) = tempfile( 'DZP-git.XXXX', UNLINK => 1 );
-        print $fh join("\n", "v$newver\n", @content);
+        print $fh join("\n", "v$newver\n", @content, ''); # add a final \n
         close $fh;
 
         # commit the files in git
