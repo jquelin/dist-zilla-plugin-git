@@ -59,6 +59,8 @@ sub before_release {
             join "\n", map { "\t$_" } @output;
         die "$errmsg\n";
     }
+
+    $self->zilla->log( "[Git] branch $branch is in a clean state\n" );
 }
 
 
