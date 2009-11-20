@@ -157,7 +157,7 @@ can be modified locally, though.
 =back
 
 If those conditions are not met, the plugin will die, and the release
-will then be aborted. This lets you fix the problems before continuing.
+will thus be aborted. This lets you fix the problems before continuing.
 
 
 =head2 Simple git actions after releasing
@@ -202,7 +202,7 @@ L<http://www.listbox.com/subscribe/?list_id=139292>
 
 =item * Git repository
 
-L<http://github.com/jquelin/dist-zilla-plugin-git.git>
+L<http://github.com/jquelin/dist-zilla-plugin-git>
 
 =item * AnnoCPAN: Annotated CPAN documentation
 
