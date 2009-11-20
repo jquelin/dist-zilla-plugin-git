@@ -10,7 +10,7 @@ use File::Spec::Functions qw{ catdir catfile };
 use Git::Wrapper;
 use IPC::Open3            qw{ open3 };
 use Symbol;
-use Test::More            tests => 6;
+use Test::More            tests => 7;
 
 
 # build fake repository
@@ -52,6 +52,10 @@ $git->remote('add', 'origin', catdir($clone, 'foo'));
 append_to_file('Changes',  "\n");
 append_to_file('dist.ini', "\n");
 is( check_dzil_release(), '', 'Changes and dist.ini can be modified' );
+
+# check if dist.ini and changelog have been committed
+my ($log) = $git->log( 'HEAD' );
+is( $log->message, "v1.23\n\n- foo\n- bar\n- baz\n", 'commit message taken from changelog' );
 
 # check if tag has been correctly created
 my @tags = $git->tag;
