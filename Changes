@@ -1,4 +1,8 @@
 Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
+
+1.093240  2009-11-20 18:36:28 Europe/Paris
  - original release
+ - git checks before release: index clean, working copy too, no untracked files
+ - git actions after release: commit changelog, tag, push
