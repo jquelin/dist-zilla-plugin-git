@@ -5,8 +5,7 @@ use warnings;
 
 use Cwd;
 use File::Temp            qw{ tempdir };
-use File::pushd;
-use File::Spec::Functions qw{ catdir catfile };
+use File::Spec::Functions qw{ catdir };
 use Git::Wrapper;
 use IPC::Open3            qw{ open3 };
 use Symbol;
