@@ -5,68 +5,8 @@ use warnings;
 package Dist::Zilla::Plugin::Git;
 # ABSTRACT: update your git repository after release
 
-use File::Temp           qw{ tempfile };
-use Git::Wrapper;
-use Moose;
-use MooseX::Has::Sugar;
-use MooseX::Types::Moose qw{ Str };
-
-with 'Dist::Zilla::Role::AfterRelease';
-
-
-# -- attributes
-
-has filename => ( ro, isa=>Str, default => 'Changes' );
-
-
-
-sub after_release {
-    my $self = shift;
-    my $git = Git::Wrapper->new('.');
-    my @output;
-    my $newver = $self->zilla->version;
-
-    # check if changelog and dist.ini need to be committed
-    # at this time, we know that only those 2 files may remain modified,
-    # otherwise before_release would have failed, ending the release
-    # process.
-    @output = $git->ls_files( { modified=>1, deleted=>1 } );
-    if ( @output ) {
-        # parse changelog to find commit message
-        my $changelog = Dist::Zilla::File::OnDisk->new( { name => $self->filename } );
-        my @content =
-            grep { /^$newver\s+/ ... /^(\S|\s*$)/ }
-            split /\n/, $changelog->content;
-        shift @content; # drop the version line
-
-        # write commit message in a temp file
-        my ($fh, $filename) = tempfile( 'DZP-git.XXXX', UNLINK => 1 );
-        print $fh join("\n", "v$newver\n", @content, ''); # add a final \n
-        close $fh;
-
-        # commit the files in git
-        $git->add( 'dist.ini', $self->filename );
-        $git->commit( { file=>$filename } );
-    }
-
-    # create a tag with the new version
-    $git->tag( "v$newver" );
-
-    # push everything on remote end
-    $git->push;
-    $git->push( { tags=>1 } );
-}
-
-
-
-
 1;
 __END__
-
-=for Pod::Coverage::TrustPod
-    after_release
-    before_release
-
 
 =head1 SYNOPSIS
 
