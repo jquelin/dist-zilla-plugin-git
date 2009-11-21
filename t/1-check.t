@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use File::Path            qw{ remove_tree };
 use File::Spec::Functions qw{ catdir };
 use Git::Wrapper;
 use IPC::Open3            qw{ open3 };
@@ -39,7 +40,9 @@ append_to_file('Changes',  "\n");
 append_to_file('dist.ini', "\n");
 is( check_dzil_release(), '', 'Changes and dist.ini can be modified' );
 
-#
+# clean & exit
+remove_tree( '.git' );
+unlink 'Foo-1.23.tar.gz', '.gitignore';
 exit;
 
 sub append_to_file {

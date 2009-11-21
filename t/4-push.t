@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use File::Path            qw{ remove_tree };
 use Cwd                   qw{ getcwd  };
 use File::Temp            qw{ tempdir };
 use File::Spec::Functions qw{ catdir  };
@@ -41,7 +42,9 @@ my @tags = $git->tag;
 is( scalar(@tags), 1, 'one tag pushed' );
 is( $tags[0], 'v1.23', 'new tag created after new version' );
 
-#
+# clean & exit
+remove_tree( '.git' );
+unlink 'Foo-1.23.tar.gz';
 exit;
 
 sub append_to_file {

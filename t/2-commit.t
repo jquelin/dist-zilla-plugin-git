@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use File::Path            qw{ remove_tree };
 use File::Spec::Functions qw{ catdir };
 use Git::Wrapper;
 use Test::More tests => 1;
@@ -23,7 +24,9 @@ system "dzil release";
 my ($log) = $git->log( 'HEAD' );
 is( $log->message, "v1.23\n\n- foo\n- bar\n- baz\n", 'commit message taken from changelog' );
 
-#
+# clean & exit
+remove_tree( '.git' );
+unlink 'Foo-1.23.tar.gz';
 exit;
 
 sub append_to_file {
