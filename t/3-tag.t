@@ -6,7 +6,7 @@ use warnings;
 use File::Path            qw{ remove_tree };
 use File::Spec::Functions qw{ catdir };
 use Git::Wrapper;
-use Test::More tests => 2;
+use Test::More            tests => 2;
 
 # build fake repository
 chdir( catdir('t', 'tag') );
