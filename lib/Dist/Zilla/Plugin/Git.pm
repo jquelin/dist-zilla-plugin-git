@@ -11,7 +11,6 @@ use Moose;
 use MooseX::Has::Sugar;
 use MooseX::Types::Moose qw{ Str };
 
-with 'Dist::Zilla::Role::BeforeRelease';
 with 'Dist::Zilla::Role::AfterRelease';
 
 
@@ -19,49 +18,6 @@ with 'Dist::Zilla::Role::AfterRelease';
 
 has filename => ( ro, isa=>Str, default => 'Changes' );
 
-
-sub before_release {
-    my $self = shift;
-    my $git = Git::Wrapper->new('.');
-    my @output;
-
-    # fetch current branch
-    my ($branch) =
-        map { /^\*\s+(.+)/ ? $1 : () }
-        $git->branch;
-
-    # check if some changes are staged for commit
-    @output = $git->diff( { cached=>1, 'name-status'=>1 } );
-    if ( @output ) {
-        my $errmsg =
-            "[Git] branch $branch has some changes staged for commit:\n" .
-            join "\n", map { "\t$_" } @output;
-        die "$errmsg\n";
-    }
-
-    # everything but changelog and dist.ini should be in a clean state
-    @output =
-        grep { $_ ne $self->filename }
-        grep { $_ ne 'dist.ini' }
-        $git->ls_files( { modified=>1, deleted=>1 } );
-    if ( @output ) {
-        my $errmsg =
-            "[Git] branch $branch has some uncommitted files:\n" .
-            join "\n", map { "\t$_" } @output;
-        die "$errmsg\n";
-    }
-
-    # no files should be untracked
-    @output = $git->ls_files( { others=>1, 'exclude-standard'=>1 } );
-    if ( @output ) {
-        my $errmsg =
-            "[Git] branch $branch has some untracked files:\n" .
-            join "\n", map { "\t$_" } @output;
-        die "$errmsg\n";
-    }
-
-    $self->zilla->log( "[Git] branch $branch is in a clean state\n" );
-}
 
 
 sub after_release {
