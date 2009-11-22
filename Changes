@@ -2,6 +2,9 @@ Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
 
+1.093260  2009-11-22 11:35:00 Europe/Paris
+ - using internal release command instead of spawning external dzil
+
 1.093250  2009-11-21 18:35:55 Europe/Paris
  - split plugin in DZP::Git::* (Check, Commit, Tag, Push)
  - providing a plugin bundle for all git plugins
