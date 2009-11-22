@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Dist::Zilla           1.093250;
 use File::Path            qw{ remove_tree };
 use File::Spec::Functions qw{ catdir };
 use Git::Wrapper;
@@ -15,10 +16,11 @@ my $git = Git::Wrapper->new('.');
 $git->add( qw{ dist.ini Changes } );
 $git->commit( { message => 'initial commit' } );
 
-# changelog and dist.ini can be modified
+# do a release, with changes and dist.ini updated
 append_to_file('Changes',  "\n");
 append_to_file('dist.ini', "\n");
-system "dzil release";
+my $zilla = Dist::Zilla->from_config;
+$zilla->release;
 
 # check if dist.ini and changelog have been committed
 my ($log) = $git->log( 'HEAD' );

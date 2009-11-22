@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Dist::Zilla           1.093250;
 use File::Path            qw{ remove_tree };
 use File::Spec::Functions qw{ catdir };
 use Git::Wrapper;
@@ -16,7 +17,8 @@ $git->add( qw{ dist.ini Changes } );
 $git->commit( { message => 'initial commit' } );
 
 # do the release
-system "dzil release";
+my $zilla = Dist::Zilla->from_config;
+$zilla->release;
 
 # check if tag has been correctly created
 my @tags = $git->tag;

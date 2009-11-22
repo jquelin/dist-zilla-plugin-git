@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Dist::Zilla           1.093250;
 use File::Path            qw{ remove_tree };
 use Cwd                   qw{ getcwd  };
 use File::Temp            qw{ tempdir };
@@ -30,7 +31,8 @@ $git->remote('add', 'origin', catdir($clone, 'push'));
 # do the release
 append_to_file('Changes',  "\n");
 append_to_file('dist.ini', "\n");
-system "dzil release";
+my $zilla = Dist::Zilla->from_config;
+$zilla->release;
 
 # check if everything was pushed
 $git = Git::Wrapper->new( catdir($clone, 'push') );
