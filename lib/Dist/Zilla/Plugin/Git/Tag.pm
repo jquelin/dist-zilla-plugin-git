@@ -9,9 +9,17 @@ use Git::Wrapper;
 use Moose;
 use MooseX::Has::Sugar;
 use MooseX::Types::Moose qw{ Str };
+use String::Formatter method_stringf => {
+  -as => '_format_tag',
+  codes => {
+    v => sub { $_[0]->version },
+  },
+};
+
 
 with 'Dist::Zilla::Role::AfterRelease';
 
+has tag_format => ( ro, isa => Str, default => 'v%v' );
 
 # -- attributes
 
@@ -22,8 +30,8 @@ sub after_release {
     my $git  = Git::Wrapper->new('.');
 
     # create a tag with the new version
-    my $newver = $self->zilla->version;
-    $git->tag( "v$newver" );
+    my $tag = _format_tag($self->tag_format, $self->zilla);
+    $git->tag( $tag );
 }
 
 1;
