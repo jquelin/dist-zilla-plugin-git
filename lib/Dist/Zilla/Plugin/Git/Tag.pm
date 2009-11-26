@@ -16,14 +16,16 @@ use String::Formatter method_stringf => {
   },
 };
 
-
 with 'Dist::Zilla::Role::AfterRelease';
 
-has tag_format => ( ro, isa => Str, default => 'v%v' );
 
 # -- attributes
 
-has filename => ( ro, isa=>Str, default => 'Changes' );
+has filename   => ( ro, isa=>Str, default => 'Changes' );
+has tag_format => ( ro, isa=>Str, default => 'v%v' );
+
+
+# -- role implementation
 
 sub after_release {
     my $self = shift;
