@@ -2,6 +2,9 @@ Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
 
+1.093300  2009-11-26 11:02:22 Europe/Paris
+ - new param tag_format for dzp:git:tag (ricardo signes)
+
 1.093260  2009-11-22 11:35:00 Europe/Paris
  - using internal release command instead of spawning external dzil
 
