@@ -54,12 +54,16 @@ In your F<dist.ini>:
 =head1 DESCRIPTION
 
 Once the release is done, this plugin will record this fact in git by
-creating a tag named C<v$VERSION>.
+creating a tag.
 
 The plugin accepts the following options:
 
 =over 4
 
-=item * filename - the name of your changelog file. defaults to F<Changes>.
+=item * filename - the name of your changelog file. Defaults to F<Changes>.
+
+=item * tag_format - format of the tag to apply. C<%v> will be
+replaced by the dist version. Defaults to C<v%v>.
+
 
 =back
