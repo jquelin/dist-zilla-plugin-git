@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use Dist::Zilla           1.093250;
-use File::Path            qw{ remove_tree };
+use File::Path            2.07 qw{ remove_tree };
 use Cwd                   qw{ getcwd  };
 use File::Temp            qw{ tempdir };
 use File::Spec::Functions qw{ catdir  };
