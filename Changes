@@ -2,6 +2,10 @@ Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
 
+1.100430  2010-02-12 13:11:39 Europe/Paris
+ - WARNING: no more makefile.pl supplied, only a build.pl
+ - using path::class in the tests
+
 1.093410  2009-12-07 09:13:07 Europe/Paris
  - require file::path 2.07 for remove_tree
 
