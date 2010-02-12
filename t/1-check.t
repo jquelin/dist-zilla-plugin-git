@@ -3,16 +3,15 @@
 use strict;
 use warnings;
 
-use Dist::Zilla           1.093250;
-use File::Path            2.07 qw{ remove_tree };
-use File::Spec::Functions qw{ catdir };
+use Dist::Zilla     1.093250;
 use Git::Wrapper;
-use Test::More            tests => 4;
+use Path::Class;
+use Test::More      tests => 4;
 use Test::Exception;
 
 
 # build fake repository
-chdir( catdir('t', 'check') );
+chdir( dir('t', 'check') );
 system "git init";
 my $git   = Git::Wrapper->new('.');
 my $zilla = Dist::Zilla->from_config;
@@ -42,7 +41,7 @@ append_to_file('dist.ini', "\n");
 lives_ok { $zilla->release } 'Changes and dist.ini can be modified';
 
 # clean & exit
-remove_tree( '.git' );
+dir( '.git' )->rmtree;
 unlink 'Foo-1.23.tar.gz', '.gitignore';
 exit;
 

@@ -3,14 +3,13 @@
 use strict;
 use warnings;
 
-use Dist::Zilla           1.093250;
-use File::Path            2.07 qw{ remove_tree };
-use File::Spec::Functions qw{ catdir };
+use Dist::Zilla  1.093250;
 use Git::Wrapper;
-use Test::More            tests => 2;
+use Path::Class;
+use Test::More   tests => 2;
 
 # build fake repository
-chdir( catdir('t', 'tag') );
+chdir( dir('t', 'tag') );
 system "git init";
 my $git = Git::Wrapper->new('.');
 $git->add( qw{ dist.ini Changes } );
@@ -26,6 +25,6 @@ is( scalar(@tags), 1, 'one tag created' );
 is( $tags[0], 'v1.23', 'new tag created after new version' );
 
 # clean & exit
-remove_tree( '.git' );
+dir('.git')->rmtree;
 unlink 'Foo-1.23.tar.gz';
 exit;

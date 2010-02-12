@@ -3,14 +3,13 @@
 use strict;
 use warnings;
 
-use Dist::Zilla           1.093250;
-use File::Path            2.07 qw{ remove_tree };
-use File::Spec::Functions qw{ catdir };
+use Dist::Zilla  1.093250;
 use Git::Wrapper;
-use Test::More            tests => 1;
+use Path::Class;
+use Test::More   tests => 1;
 
 # build fake repository
-chdir( catdir('t', 'commit') );
+chdir( dir('t', 'commit') );
 system "git init";
 my $git = Git::Wrapper->new('.');
 $git->add( qw{ dist.ini Changes } );
@@ -27,7 +26,7 @@ my ($log) = $git->log( 'HEAD' );
 is( $log->message, "v1.23\n\n- foo\n- bar\n- baz\n", 'commit message taken from changelog' );
 
 # clean & exit
-remove_tree( '.git' );
+dir( '.git' )->rmtree;
 unlink 'Foo-1.23.tar.gz';
 exit;
 

@@ -3,16 +3,15 @@
 use strict;
 use warnings;
 
-use Dist::Zilla           1.093250;
-use File::Path            2.07 qw{ remove_tree };
-use Cwd                   qw{ getcwd  };
-use File::Temp            qw{ tempdir };
-use File::Spec::Functions qw{ catdir  };
+use Dist::Zilla  1.093250;
+use Cwd          qw{ getcwd  };
+use File::Temp   qw{ tempdir };
 use Git::Wrapper;
-use Test::More            tests => 3;
+use Path::Class;
+use Test::More   tests => 3;
 
 # build fake repository
-chdir( catdir('t', 'push') );
+chdir( dir('t', 'push') );
 system "git init";
 my $git = Git::Wrapper->new('.');
 $git->add( qw{ dist.ini Changes } );
@@ -26,7 +25,7 @@ my $curr  = getcwd;
     system qq{ git clone $curr };
 }
 chdir $curr;
-$git->remote('add', 'origin', catdir($clone, 'push'));
+$git->remote('add', 'origin', dir($clone, 'push'));
 
 # do the release
 append_to_file('Changes',  "\n");
@@ -35,7 +34,7 @@ my $zilla = Dist::Zilla->from_config;
 $zilla->release;
 
 # check if everything was pushed
-$git = Git::Wrapper->new( catdir($clone, 'push') );
+$git = Git::Wrapper->new( dir($clone, 'push') );
 my ($log) = $git->log( 'HEAD' );
 is( $log->message, "v1.23\n\n- foo\n- bar\n- baz\n", 'commit pushed' );
 
@@ -45,7 +44,7 @@ is( scalar(@tags), 1, 'one tag pushed' );
 is( $tags[0], 'v1.23', 'new tag created after new version' );
 
 # clean & exit
-remove_tree( '.git' );
+dir( '.git' )->rmtree;
 unlink 'Foo-1.23.tar.gz';
 exit;
 
