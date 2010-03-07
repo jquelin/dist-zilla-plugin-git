@@ -20,12 +20,8 @@ $git->commit( { message => 'initial commit' } );
 # create a clone, and use it to set up origin
 my $clone = tempdir( CLEANUP => 1 );
 my $curr  = getcwd;
-{
-    chdir $clone;
-    system qq{ git clone $curr };
-}
-chdir $curr;
-$git->remote('add', 'origin', dir($clone, 'push'));
+$git->clone( qw{ -q -n --bare }, $curr, $clone );
+$git->remote('add', 'origin', $clone);
 
 # do the release
 append_to_file('Changes',  "\n");
@@ -34,7 +30,7 @@ my $zilla = Dist::Zilla->from_config;
 $zilla->release;
 
 # check if everything was pushed
-$git = Git::Wrapper->new( dir($clone, 'push') );
+$git = Git::Wrapper->new( $clone );
 my ($log) = $git->log( 'HEAD' );
 is( $log->message, "v1.23\n\n- foo\n- bar\n- baz\n", 'commit pushed' );
 
