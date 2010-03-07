@@ -23,7 +23,7 @@ sub bundle_config {
     # make sure all plugins exist
     eval "require $_; 1" or die for @classes; ## no critic ProhibitStringyEval
 
-    return @classes->map(sub { [ "$class/$_" => $_ => $arg ] })->flatten;
+    return map { [ "$section->{name}/$_" => $_ => $arg ] } @classes;
 }
 
 
