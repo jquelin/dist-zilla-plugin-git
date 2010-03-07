@@ -32,9 +32,9 @@ sub before_release {
     @output = $git->diff( { cached=>1, 'name-status'=>1 } );
     if ( @output ) {
         my $errmsg =
-            "[Git] branch $branch has some changes staged for commit:\n" .
+            "branch $branch has some changes staged for commit:\n" .
             join "\n", map { "\t$_" } @output;
-        die "$errmsg\n";
+        $self->log_fatal($errmsg);
     }
 
     # everything but changelog and dist.ini should be in a clean state
@@ -44,21 +44,21 @@ sub before_release {
         $git->ls_files( { modified=>1, deleted=>1 } );
     if ( @output ) {
         my $errmsg =
-            "[Git] branch $branch has some uncommitted files:\n" .
+            "branch $branch has some uncommitted files:\n" .
             join "\n", map { "\t$_" } @output;
-        die "$errmsg\n";
+        $self->log_fatal($errmsg);
     }
 
     # no files should be untracked
     @output = $git->ls_files( { others=>1, 'exclude-standard'=>1 } );
     if ( @output ) {
         my $errmsg =
-            "[Git] branch $branch has some untracked files:\n" .
+            "branch $branch has some untracked files:\n" .
             join "\n", map { "\t$_" } @output;
-        die "$errmsg\n";
+        $self->log_fatal($errmsg);
     }
 
-    $self->zilla->log( "[Git] branch $branch is in a clean state\n" );
+    $self->log( "branch $branch is in a clean state" );
 }
 
 
