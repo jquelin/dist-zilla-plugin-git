@@ -16,14 +16,17 @@ sub bundle_config {
     my $arg   = $section->{payload};
 
     # bundle all git plugins
-    my @classes =
-        map { "Dist::Zilla::Plugin::Git::$_" }
-        qw{ Check Commit Tag Push };
+    my @names   = qw{ Check Commit Tag Push };
 
-    # make sure all plugins exist
-    eval "require $_; 1" or die for @classes; ## no critic ProhibitStringyEval
+    my @config;
 
-    return map { [ "$section->{name}/$_" => $_ => $arg ] } @classes;
+    for my $name (@names) {
+        my $class = "Dist::Zilla::Plugin::Git::$name";
+        Class::MOP::load_class($class);
+        push @config, [ "$section->{name}/$name" => $class => $arg ];
+    }
+
+    return @config;
 }
 
 
