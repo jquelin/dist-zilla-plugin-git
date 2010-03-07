@@ -1,6 +1,8 @@
 Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
+ - fix tests to work with current Dist::Zilla (Ricardo Signes)
+ - provide shorter plugin names to bundle contents (Ricardo Signes)
 
 1.100430  2010-02-12 13:11:39 Europe/Paris
  - WARNING: no more makefile.pl supplied, only a build.pl
