@@ -6,7 +6,7 @@ package Dist::Zilla::PluginBundle::Git;
 # ABSTRACT: all git plugins in one go
 
 use Moose;
-use Moose::Autobox;
+use Class::MOP;
 
 with 'Dist::Zilla::Role::PluginBundle';
 
