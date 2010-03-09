@@ -2,6 +2,10 @@ Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
 
+1.100680  2010-03-09 17:07:45 Europe/Paris
+ - using annotated tags instead of lightweight tags (rt#55352)
+ - minor pod update
+
 1.100660  2010-03-07 13:41:39 Europe/Paris
  - fix tests to work with current Dist::Zilla (Ricardo Signes)
  - provide shorter plugin names to bundle contents (Ricardo Signes)
