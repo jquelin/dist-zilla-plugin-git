@@ -48,7 +48,6 @@ __END__
 In your F<dist.ini>:
 
     [Git::Tag]
-    filename = Changes      ; this is the default
 
 
 =head1 DESCRIPTION
@@ -59,8 +58,6 @@ creating a tag.
 The plugin accepts the following options:
 
 =over 4
-
-=item * filename - the name of your changelog file. Defaults to F<Changes>.
 
 =item * tag_format - format of the tag to apply. C<%v> will be
 replaced by the dist version. Defaults to C<v%v>.
