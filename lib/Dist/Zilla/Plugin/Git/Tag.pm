@@ -32,7 +32,7 @@ sub after_release {
 
     # create a tag with the new version
     my $tag = _format_tag($self->tag_format, $self->zilla);
-    $git->tag( $tag );
+    $git->tag( {m=>$tag}, $tag );
 }
 
 1;
@@ -52,7 +52,7 @@ In your F<dist.ini>:
 =head1 DESCRIPTION
 
 Once the release is done, this plugin will record this fact in git by
-creating a tag.
+creating a tag. The tag is of the annotated type.
 
 The plugin accepts the following options:
 
