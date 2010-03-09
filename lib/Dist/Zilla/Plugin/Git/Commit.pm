@@ -42,6 +42,13 @@ sub after_release {
     $git->commit( { file=>$filename } );
 }
 
+=method get_commit_message
+
+This method returns the commit message.  The default implementation
+reads the Changes file to get the list of changes in the just-released version.
+
+=cut
+
 sub get_commit_message {
     my $self = shift;
 
@@ -62,7 +69,6 @@ __END__
 
 =for Pod::Coverage::TrustPod
     after_release
-    get_commit_message
 
 
 =head1 SYNOPSIS
