@@ -21,7 +21,6 @@ with 'Dist::Zilla::Role::AfterRelease';
 
 # -- attributes
 
-has filename   => ( ro, isa=>Str, default => 'Changes' );
 has tag_format => ( ro, isa=>Str, default => 'v%v' );
 
 
