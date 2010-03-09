@@ -56,12 +56,12 @@ __END__
 In your F<dist.ini>:
 
     [Git::Tag]
-    tag_format = v%v      ; this is the default
 
 =head1 DESCRIPTION
 
 Once the release is done, this plugin will record this fact in git by
-creating a tag.
+creating a tag.  If you set the C<tag_message> attribute, it makes an
+annotated tag.  Otherwise, it makes a lightweight tag.
 
 The plugin accepts the following options:
 
