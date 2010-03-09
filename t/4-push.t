@@ -20,7 +20,7 @@ $git->commit( { message => 'initial commit' } );
 # create a clone, and use it to set up origin
 my $clone = tempdir( CLEANUP => 1 );
 my $curr  = getcwd;
-$git->clone( qw{ -q -n --bare }, $curr, $clone );
+$git->clone( { quiet=>1, 'no-checkout'=>1, bare=>1 }, $curr, $clone );
 $git->remote('add', 'origin', $clone);
 
 # do the release
