@@ -11,11 +11,24 @@ use Moose;
 use MooseX::Has::Sugar;
 use MooseX::Types::Moose qw{ Str };
 
+use String::Formatter method_stringf => {
+  -as => '_format_string',
+  codes => {
+    c => sub { $_[0]->_get_changes },
+    d => sub { require DateTime;
+               DateTime->now->format_cldr($_[1] || 'dd-MMM-yyyy') },
+    n => sub { "\n" },
+    N => sub { $_[0]->zilla->name },
+    v => sub { $_[0]->zilla->version },
+  },
+};
+
 with 'Dist::Zilla::Role::AfterRelease';
 
 
 # -- attributes
 
+has commit_msg => ( ro, isa=>Str, default => 'v%v%n%n%c' );
 has filename => ( ro, isa=>Str, default => 'Changes' );
 
 sub after_release {
@@ -45,11 +58,17 @@ sub after_release {
 =method get_commit_message
 
 This method returns the commit message.  The default implementation
-reads the Changes file to get the list of changes in the just-released version.
+formats the commit_msg.
 
 =cut
 
 sub get_commit_message {
+    my $self = shift;
+
+    return _format_string($self->commit_msg, $self);
+} # end get_commit_message
+
+sub _get_changes {
     my $self = shift;
 
     # parse changelog to find commit message
@@ -61,8 +80,8 @@ sub get_commit_message {
     shift @content; # drop the version line
 
     # return commit message
-    return join("\n", "v$newver\n", @content, ''); # add a final \n
-} # end get_commit_message
+    return join("\n", @content, ''); # add a final \n
+} # end _get_changes
 
 1;
 __END__
@@ -91,5 +110,35 @@ The plugin accepts the following options:
 =over 4
 
 =item * filename - the name of your changelog file. defaults to F<Changes>.
+
+=item * commit_msg - the commit message to use. defaults to
+C<v%v%n%n%c>, meaning the version number and the list of changes.
+
+=back
+
+You can use the following codes in commit_msg:
+
+=over 4
+
+=item C<%c>
+
+The list of changes in the just-released version (read from C<filename>).
+
+=item C<%{dd-MMM-yyyy}d>
+
+The current date.  You can use any CLDR format supported by
+L<DateTime>.  A bare C<%d> means C<%{dd-MMM-yyyy}d>.
+
+=item C<%n>
+
+a newline
+
+=item C<%N>
+
+the distribution name
+
+=item C<%v>
+
+the distribution version
 
 =back

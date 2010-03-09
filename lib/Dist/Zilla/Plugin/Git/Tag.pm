@@ -12,7 +12,10 @@ use MooseX::Types::Moose qw{ Str };
 use String::Formatter method_stringf => {
   -as => '_format_tag',
   codes => {
-    n => sub { $_[0]->name },
+    d => sub { require DateTime;
+               DateTime->now->format_cldr($_[1] || 'dd-MMM-yyyy') },
+    n => sub { "\n" },
+    N => sub { $_[0]->name },
     v => sub { $_[0]->version },
   },
 };
@@ -78,12 +81,21 @@ You can use the following codes in both options:
 
 =over 4
 
+=item C<%{dd-MMM-yyyy}d>
+
+The current date.  You can use any CLDR format supported by
+L<DateTime>.  A bare C<%d> means C<%{dd-MMM-yyyy}d>.
+
 =item C<%n>
 
-will be replaced by the distribution name.
+a newline
+
+=item C<%N>
+
+the distribution name
 
 =item C<%v>
 
-will be replaced by the distribution version.
+the distribution version
 
 =back
