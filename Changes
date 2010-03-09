@@ -2,6 +2,9 @@ Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
 
+1.100681  2010-03-09 17:26:14 Europe/Paris
+ - bumping minimum dzil version requirement
+
 1.100680  2010-03-09 17:07:45 Europe/Paris
  - using annotated tags instead of lightweight tags (rt#55352)
  - minor pod update
