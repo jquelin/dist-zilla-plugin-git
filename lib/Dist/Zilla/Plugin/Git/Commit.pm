@@ -3,7 +3,7 @@ use strict;
 use warnings;
 
 package Dist::Zilla::Plugin::Git::Commit;
-# ABSTRACT: commit dist.ini and changelog
+# ABSTRACT: commit dirty files
 
 use File::Temp           qw{ tempfile };
 use Git::Wrapper;
@@ -26,16 +26,20 @@ use String::Formatter method_stringf => {
 with 'Dist::Zilla::Role::AfterRelease';
 with 'Dist::Zilla::Role::Git::DirtyFiles';
 
+
 # -- attributes
 
 has commit_msg => ( ro, isa=>Str, default => 'v%v%n%n%c' );
+
+
+# -- public methods
 
 sub after_release {
     my $self = shift;
     my $git  = Git::Wrapper->new('.');
     my @output;
 
-    # check if changelog and dist.ini need to be committed
+    # check if there are dirty files that need to be committed.
     # at this time, we know that only those 2 files may remain modified,
     # otherwise before_release would have failed, ending the release
     # process.
@@ -65,6 +69,9 @@ sub get_commit_message {
 
     return _format_string($self->commit_msg, $self);
 } # end get_commit_message
+
+
+# -- private methods
 
 sub _get_changes {
     my $self = shift;
