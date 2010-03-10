@@ -14,6 +14,8 @@ use Test::More   tests => 3;
 chdir( dir('t', 'push') );
 system "git init";
 my $git = Git::Wrapper->new('.');
+$git->config( 'user.name'  => 'dzp-git test' );
+$git->config( 'user.email' => 'dzp-git@test' );
 $git->add( qw{ dist.ini Changes } );
 $git->commit( { message => 'initial commit' } );
 
