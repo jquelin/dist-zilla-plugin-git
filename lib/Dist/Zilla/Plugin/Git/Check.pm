@@ -11,9 +11,8 @@ use Moose;
 with 'Dist::Zilla::Role::BeforeRelease';
 with 'Dist::Zilla::Role::Git::DirtyFiles';
 
-# -- attributes
 
-
+# -- public methods
 
 sub before_release {
     my $self = shift;
@@ -34,7 +33,8 @@ sub before_release {
         $self->log_fatal($errmsg);
     }
 
-    # everything but changelog and dist.ini should be in a clean state
+    # everything but files listed in allow_dirty should be in a
+    # clean state
     @output = $self->list_dirty_files($git);
     if ( @output ) {
         my $errmsg =
@@ -68,6 +68,8 @@ __END__
 In your F<dist.ini>:
 
     [Git::Check]
+    allow_dirty = dist.ini
+    allow_dirty = README
     filename = Changes      ; this is the default
 
 
@@ -82,9 +84,8 @@ following checks are performed before releasing:
 
 =item * there should be no untracked files in the working copy
 
-=item * the working copy should be clean. The changelog and F<dist.ini>
-can be modified locally, though.
-
+=item * the working copy should be clean. The files listed in
+C<allow_dirty> can be modified locally, though.
 =back
 
 If those conditions are not met, the plugin will die, and the release
