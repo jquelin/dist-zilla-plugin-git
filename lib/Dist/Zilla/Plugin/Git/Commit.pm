@@ -39,7 +39,7 @@ sub after_release {
     # at this time, we know that only those 2 files may remain modified,
     # otherwise before_release would have failed, ending the release
     # process.
-    @output = $self->list_dirty_files($git, 1);
+    @output = sort { lc $a cmp lc $b } $self->list_dirty_files($git, 1);
     return unless @output;
 
     # write commit message in a temp file
@@ -50,6 +50,7 @@ sub after_release {
     # commit the files in git
     $git->add( @output );
     $git->commit( { file=>$filename } );
+    $self->log("Committed @output");
 }
 
 =method get_commit_message
