@@ -10,6 +10,7 @@ Revision history for Dist::Zilla::Plugin::Git
  - minor pod update
 
 1.100660  2010-03-07 13:41:39 Europe/Paris
+ - fix tests to work with git 1.7.0
  - fix tests to work with current Dist::Zilla (Ricardo Signes)
  - provide shorter plugin names to bundle contents (Ricardo Signes)
 
