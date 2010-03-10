@@ -25,8 +25,8 @@ with 'Dist::Zilla::Role::AfterRelease';
 
 # -- attributes
 
-has tag_format => ( ro, isa=>Str, default => 'v%v' );
-has tag_message=> ( ro, isa=>Str );
+has tag_format  => ( ro, isa=>Str, default => 'v%v' );
+has tag_message => ( ro, isa=>Str, default => 'v%v' );
 
 
 # -- role implementation
@@ -36,10 +36,9 @@ sub after_release {
     my $git  = Git::Wrapper->new('.');
 
     # Make an annotated tag if tag_message, lightweight tag otherwise:
-    my @opts;
-    if (defined $self->tag_message) {
-      push @opts, -m => _format_tag($self->tag_message, $self->zilla);
-    }
+    my @opts = $self->tag_message
+        ? ( '-m' => _format_tag($self->tag_message, $self->zilla) )
+        : ();
 
     # create a tag with the new version
     my $tag = _format_tag($self->tag_format, $self->zilla);
@@ -59,6 +58,8 @@ __END__
 In your F<dist.ini>:
 
     [Git::Tag]
+    tag_format  = v%v       ; this is the default
+    tag_message = v%v       ; this is the default
 
 =head1 DESCRIPTION
 
@@ -72,8 +73,8 @@ The plugin accepts the following options:
 
 =item * tag_format - format of the tag to apply. Defaults to C<v%v>.
 
-=item * tag_message - format of the commit message.
-Defaults to no message (creating a lightweight tag).
+=item * tag_message - format of the commit message. Defaults to C<v%v>.
+Use C<tag_message = > to create a lightweight tag.
 
 =back
 
