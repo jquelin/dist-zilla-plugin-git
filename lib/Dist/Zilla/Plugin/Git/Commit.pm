@@ -24,12 +24,11 @@ use String::Formatter method_stringf => {
 };
 
 with 'Dist::Zilla::Role::AfterRelease';
-
+with 'Dist::Zilla::Role::Git::DirtyFiles';
 
 # -- attributes
 
 has commit_msg => ( ro, isa=>Str, default => 'v%v%n%n%c' );
-has filename => ( ro, isa=>Str, default => 'Changes' );
 
 sub after_release {
     my $self = shift;
@@ -40,9 +39,7 @@ sub after_release {
     # at this time, we know that only those 2 files may remain modified,
     # otherwise before_release would have failed, ending the release
     # process.
-    @output =
-        grep { $_ eq 'dist.ini' || $_ eq $self->filename }
-        $git->ls_files( { modified=>1, deleted=>1 } );
+    @output = $self->list_dirty_files($git, 1);
     return unless @output;
 
     # write commit message in a temp file
@@ -51,7 +48,7 @@ sub after_release {
     close $fh;
 
     # commit the files in git
-    $git->add( 'dist.ini', $self->filename );
+    $git->add( @output );
     $git->commit( { file=>$filename } );
 }
 

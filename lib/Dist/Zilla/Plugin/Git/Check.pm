@@ -7,15 +7,12 @@ package Dist::Zilla::Plugin::Git::Check;
 
 use Git::Wrapper;
 use Moose;
-use MooseX::Has::Sugar;
-use MooseX::Types::Moose qw{ Str };
 
 with 'Dist::Zilla::Role::BeforeRelease';
-
+with 'Dist::Zilla::Role::Git::DirtyFiles';
 
 # -- attributes
 
-has filename => ( ro, isa=>Str, default => 'Changes' );
 
 
 sub before_release {
@@ -38,10 +35,7 @@ sub before_release {
     }
 
     # everything but changelog and dist.ini should be in a clean state
-    @output =
-        grep { $_ ne $self->filename }
-        grep { $_ ne 'dist.ini' }
-        $git->ls_files( { modified=>1, deleted=>1 } );
+    @output = $self->list_dirty_files($git);
     if ( @output ) {
         my $errmsg =
             "branch $branch has some uncommitted files:\n" .
