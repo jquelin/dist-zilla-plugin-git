@@ -109,6 +109,10 @@ The plugin accepts the following options:
 
 =item * filename - the name of your changelog file. defaults to F<Changes>.
 
+=item * allow_dirty - a file that will be checked in if it is locally
+modified.  This option may appear multiple times.  The default
+list is F<dist.ini> and the changelog file given by C<filename>.
+
 =item * commit_msg - the commit message to use. defaults to
 C<v%v%n%n%c>, meaning the version number and the list of changes.
 

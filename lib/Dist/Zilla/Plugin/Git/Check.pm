@@ -97,5 +97,10 @@ The plugin accepts the following options:
 
 =item * filename - the name of your changelog file. defaults to F<Changes>.
 
+=item * allow_dirty - a file that is allowed to have local
+modifications.  This option may appear multiple times.  The default
+list is F<dist.ini> and the changelog file given by C<filename>.  You
+can use C<allow_dirty => to prohibit all local modifications.
+
 =back
 
