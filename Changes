@@ -2,6 +2,10 @@ Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
 
+1.100690  2010-03-10 13:20:37 Europe/Paris
+ - fix tests to work even when no global git config exists
+ - refactored commit message generation (christopher madsen)
+
 1.100681  2010-03-09 17:26:14 Europe/Paris
  - bumping minimum dzil version requirement
 
