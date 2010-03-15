@@ -2,6 +2,9 @@ Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
 
+1.100741  2010-03-15 18:48:31 Europe/Paris
+ - documentation fix for new push_to param
+
 1.100740  2010-03-15 17:28:12 Europe/Paris
  - WARNING: parameter "filename" renamed to "changelog"
  - let commit message include whitespace to next unindented line (david golden)
