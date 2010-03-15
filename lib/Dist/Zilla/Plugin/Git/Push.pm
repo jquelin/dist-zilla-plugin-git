@@ -8,22 +8,31 @@ package Dist::Zilla::Plugin::Git::Push;
 use Git::Wrapper;
 use Moose;
 use MooseX::Has::Sugar;
-use MooseX::Types::Moose qw{ Str };
+use MooseX::Types::Moose qw{ ArrayRef Str };
 
 with 'Dist::Zilla::Role::AfterRelease';
 
+sub mvp_multivalue_args { qw(push_to) }
 
 # -- attributes
 
-has filename => ( ro, isa=>Str, default => 'Changes' );
+has push_to => (
+  is   => 'ro',
+  isa  => 'ArrayRef[Str]',
+  lazy => 1,
+  default => sub { [ qw(origin) ] },
+);
+
 
 sub after_release {
     my $self = shift;
     my $git  = Git::Wrapper->new('.');
 
     # push everything on remote branch
-    $git->push;
-    $git->push( { tags=>1 } );
+    for my $remote ( @{ $self->push_to } ) { 
+      $git->push( $remote );
+      $git->push( { tags=>1 },  $remote );
+    }
 }
 
 1;
@@ -31,14 +40,14 @@ __END__
 
 =for Pod::Coverage::TrustPod
     after_release
-
+    mvp_multivalue_args
 
 =head1 SYNOPSIS
 
 In your F<dist.ini>:
 
     [Git::Push]
-    filename = Changes      ; this is the default
+    push_to = origin      ; this is the default
 
 
 =head1 DESCRIPTION
@@ -51,6 +60,9 @@ The plugin accepts the following options:
 
 =over 4
 
-=item * filename - the name of your changelog file. defaults to F<Changes>.
+=item * 
+
+push_to - the name of the a remote to push to. The default is F<Changes>.
+This may be specified multiple times to push to multiple repositories.
 
 =back

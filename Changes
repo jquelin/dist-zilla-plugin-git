@@ -3,6 +3,8 @@ Revision history for Dist::Zilla::Plugin::Git
 {{$NEXT}}
  - let commit message include whitespace to next unindented line
  - set up remote tracking branch during push testing
+ - remove unnecessary 'filename' arg from Push
+ - add 'push_to' argument to Push for multi-repo pushes
 
 1.100690  2010-03-10 13:20:37 Europe/Paris
  - fix tests to work even when no global git config exists
