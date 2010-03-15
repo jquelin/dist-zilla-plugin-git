@@ -43,7 +43,13 @@ __END__
 In your F<dist.ini>:
 
     [@Git]
-    changelog = Changes        ; this is the default
+    changelog   = Changes             ; this is the default
+    allow_dirty = dist.ini            ; see Git::Check...
+    allow_dirty = Changes             ; ... and Git::Commit
+    commit_msg  = v%v%n%n%c           ; see Git::Commit
+    tag_format  = %v                  ; see Git::Tag
+    tag_message = %v                  ; see Git::Tag
+    push_to     = origin              ; see Git::Push
 
 
 =head1 DESCRIPTION
