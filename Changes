@@ -1,10 +1,15 @@
 Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
- - let commit message include whitespace to next unindented line
- - set up remote tracking branch during push testing
- - remove unnecessary 'filename' arg from Push
- - add 'push_to' argument to Push for multi-repo pushes
+ - let commit message include whitespace to next unindented line (david golden)
+ - set up remote tracking branch during push testing (david golden)
+ - remove unnecessary 'filename' arg from Push (david golden)
+ - add 'push_to' argument to Push for multi-repo pushes (david golden)
+ - give back user possibility to create lightweight tag, default remains
+   annotated tags (christopher madsen)
+ - allow user to change commit message (christopher madsen)
+ - allow user to specify files allowed to be dirty for check & commit (christopher madsen)
+ - refactored allow_dirty in dz:role:git:dirtyfiles (christopher madsen)
 
 1.100690  2010-03-10 13:20:37 Europe/Paris
  - fix tests to work even when no global git config exists

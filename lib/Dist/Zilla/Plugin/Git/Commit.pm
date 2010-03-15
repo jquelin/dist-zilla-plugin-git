@@ -69,7 +69,7 @@ sub get_commit_message {
     my $self = shift;
 
     # parse changelog to find commit message
-    my $changelog = Dist::Zilla::File::OnDisk->new( { name => $self->filename } );
+    my $changelog = Dist::Zilla::File::OnDisk->new( { name => $self->changelog } );
     my $newver    = $self->zilla->version;
     my @content   =
         grep { /^$newver\s+/ ... /^\S/ } # from newver to un-indented
@@ -89,7 +89,7 @@ sub _get_changes {
     my $self = shift;
 
     # parse changelog to find commit message
-    my $changelog = Dist::Zilla::File::OnDisk->new( { name => $self->filename } );
+    my $changelog = Dist::Zilla::File::OnDisk->new( { name => $self->changelog } );
     my $newver    = $self->zilla->version;
     my @content   =
         grep { /^$newver\s+/ ... /^(\S|\s*$)/ }
@@ -113,7 +113,7 @@ __END__
 In your F<dist.ini>:
 
     [Git::Commit]
-    filename = Changes      ; this is the default
+    changelog = Changes      ; this is the default
 
 
 =head1 DESCRIPTION
@@ -128,11 +128,11 @@ The plugin accepts the following options:
 
 =over 4
 
-=item * filename - the name of your changelog file. defaults to F<Changes>.
+=item * changelog - the name of your changelog file. defaults to F<Changes>.
 
 =item * allow_dirty - a file that will be checked in if it is locally
 modified.  This option may appear multiple times.  The default
-list is F<dist.ini> and the changelog file given by C<filename>.
+list is F<dist.ini> and the changelog file given by C<changelog>.
 
 =item * commit_msg - the commit message to use. defaults to
 C<v%v%n%n%c>, meaning the version number and the list of changes.
@@ -145,7 +145,7 @@ You can use the following codes in commit_msg:
 
 =item C<%c>
 
-The list of changes in the just-released version (read from C<filename>).
+The list of changes in the just-released version (read from C<changelog>).
 
 =item C<%{dd-MMM-yyyy}d>
 

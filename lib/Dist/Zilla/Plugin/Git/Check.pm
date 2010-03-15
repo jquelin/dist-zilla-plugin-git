@@ -70,7 +70,7 @@ In your F<dist.ini>:
     [Git::Check]
     allow_dirty = dist.ini
     allow_dirty = README
-    filename = Changes      ; this is the default
+    changelog = Changes      ; this is the default
 
 
 =head1 DESCRIPTION
@@ -97,11 +97,11 @@ The plugin accepts the following options:
 
 =over 4
 
-=item * filename - the name of your changelog file. defaults to F<Changes>.
+=item * changelog - the name of your changelog file. defaults to F<Changes>.
 
 =item * allow_dirty - a file that is allowed to have local
 modifications.  This option may appear multiple times.  The default
-list is F<dist.ini> and the changelog file given by C<filename>.  You
+list is F<dist.ini> and the changelog file given by C<changelog>.  You
 can use C<allow_dirty => to prohibit all local modifications.
 
 =back

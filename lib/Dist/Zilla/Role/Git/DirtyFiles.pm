@@ -3,7 +3,7 @@ use strict;
 use warnings;
 
 package Dist::Zilla::Role::Git::DirtyFiles;
-# ABSTRACT: provide the allow_dirty & filename attributes
+# ABSTRACT: provide the allow_dirty & changelog attributes
 
 use Moose::Role;
 use Moose::Autobox;
@@ -17,9 +17,9 @@ use MooseX::Types::Moose qw{ ArrayRef Str };
 
 A list of files that are allowed to be dirty in the git checkout.
 Defaults to C<dist.ini> and the changelog (as defined per the
-C<filename> attribute.
+C<changelog> attribute.
 
-=attr filename
+=attr changelog
 
 The name of the changelog. Defaults to C<Changes>.
 
@@ -30,14 +30,14 @@ has allow_dirty => (
   isa     => ArrayRef[Str],
   builder => '_build_allow_dirty',
 );
-has filename => ( ro, isa=>Str, default => 'Changes' );
+has changelog => ( ro, isa=>Str, default => 'Changes' );
 
 sub mvp_multivalue_args { qw(allow_dirty) }
 
 
 # -- builders & initializers
 
-sub _build_allow_dirty { [ 'dist.ini', shift->filename ] }
+sub _build_allow_dirty { [ 'dist.ini', shift->changelog ] }
 
 
 

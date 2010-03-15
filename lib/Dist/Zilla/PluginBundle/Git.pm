@@ -43,7 +43,7 @@ __END__
 In your F<dist.ini>:
 
     [@Git]
-    filename = Changes        ; this is the default
+    changelog = Changes        ; this is the default
 
 
 =head1 DESCRIPTION
