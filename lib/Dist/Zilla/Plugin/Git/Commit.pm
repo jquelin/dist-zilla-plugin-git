@@ -56,9 +56,11 @@ sub get_commit_message {
     my $changelog = Dist::Zilla::File::OnDisk->new( { name => $self->filename } );
     my $newver    = $self->zilla->version;
     my @content   =
-        grep { /^$newver\s+/ ... /^(\S|\s*$)/ }
+        grep { /^$newver\s+/ ... /^\S/ } # from newver to un-indented
         split /\n/, $changelog->content;
     shift @content; # drop the version line
+    # drop unindented last line and trailing blank lines
+    pop @content while ( @content && $content[-1] =~ /^(?:\S|\s*$)/ );
 
     # return commit message
     return join("\n", "v$newver\n", @content, ''); # add a final \n
@@ -83,7 +85,8 @@ In your F<dist.ini>:
 
 Once the release is done, this plugin will record this fact in git by
 committing changelog and F<dist.ini>. The commit message will be taken
-from the changelog for this release.
+from the changelog for this release.  It will include lines between
+the current version and timestamp and the next non-indented line.
 
 
 The plugin accepts the following options:
