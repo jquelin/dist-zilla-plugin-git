@@ -62,7 +62,7 @@ The plugin accepts the following options:
 
 =item * 
 
-push_to - the name of the a remote to push to. The default is F<Changes>.
+push_to - the name of the a remote to push to. The default is F<origin>.
 This may be specified multiple times to push to multiple repositories.
 
 =back
