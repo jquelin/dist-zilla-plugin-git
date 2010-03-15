@@ -1,6 +1,9 @@
 Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
+
+1.100740  2010-03-15 17:28:12 Europe/Paris
+ - WARNING: parameter "filename" renamed to "changelog"
  - let commit message include whitespace to next unindented line (david golden)
  - set up remote tracking branch during push testing (david golden)
  - remove unnecessary 'filename' arg from Push (david golden)
