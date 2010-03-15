@@ -12,6 +12,7 @@ use Test::More   tests => 3;
 
 # build fake repository
 chdir( dir('t', 'push') );
+dir( '.git' )->rmtree if -d '.git'; # clean up from any prior run
 system "git init";
 my $git = Git::Wrapper->new('.');
 $git->config( 'user.name'  => 'dzp-git test' );
@@ -24,6 +25,8 @@ my $clone = tempdir( CLEANUP => 1 );
 my $curr  = getcwd;
 $git->clone( { quiet=>1, 'no-checkout'=>1, bare=>1 }, $curr, $clone );
 $git->remote('add', 'origin', $clone);
+$git->config('branch.master.remote', 'origin');
+$git->config('branch.master.merge', 'refs/heads/master');
 
 # do the release
 append_to_file('Changes',  "\n");
