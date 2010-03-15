@@ -86,6 +86,7 @@ following checks are performed before releasing:
 
 =item * the working copy should be clean. The files listed in
 C<allow_dirty> can be modified locally, though.
+
 =back
 
 If those conditions are not met, the plugin will die, and the release
