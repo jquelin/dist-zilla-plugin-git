@@ -53,7 +53,7 @@ sub after_release {
 
     # commit the files in git
     $git->add( @output );
-    $git->commit( { file=>$filename } );
+    $self->log_debug($_) for $git->commit( { file=>$filename } );
     $self->log("Committed @output");
 }
 
