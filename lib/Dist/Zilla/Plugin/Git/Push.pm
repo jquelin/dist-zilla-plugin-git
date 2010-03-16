@@ -30,6 +30,7 @@ sub after_release {
 
     # push everything on remote branch
     for my $remote ( @{ $self->push_to } ) { 
+      $self->log("pushing to $remote");
       $git->push( $remote );
       $git->push( { tags=>1 },  $remote );
     }
