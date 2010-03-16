@@ -6,7 +6,7 @@ use warnings;
 use Dist::Zilla  1.093250;
 use Git::Wrapper;
 use Path::Class;
-use Test::More   tests => 2;
+use Test::More   tests => 3;
 
 # build fake repository
 chdir( dir('t', 'tag') );
@@ -25,6 +25,12 @@ $zilla->release;
 my @tags = $git->tag;
 is( scalar(@tags), 1, 'one tag created' );
 is( $tags[0], 'v1.23', 'new tag created after new version' );
+
+# attempting to release again should fail
+$zilla = Dist::Zilla->from_config;
+eval { $zilla->release };
+
+like($@, qr/tag v1\.23 already exists/, 'prohibit duplicate tag');
 
 # clean & exit
 dir('.git')->rmtree;
