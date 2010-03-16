@@ -1,6 +1,8 @@
 Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
+
+1.100750  2010-03-16 16:25:56 Europe/Paris
  - actually use commit_msg (christopher madsen)
  - Push now logs before pushing (christopher madsen)
 
