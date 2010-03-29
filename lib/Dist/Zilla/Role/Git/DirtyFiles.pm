@@ -32,8 +32,12 @@ has allow_dirty => (
 );
 has changelog => ( ro, isa=>Str, default => 'Changes' );
 
-sub mvp_multivalue_args { qw(allow_dirty) }
+around mvp_multivalue_args => sub {
+  my ($orig, $self) = @_;
 
+  my @start = $self->$orig;
+  return (@start, 'allow_dirty');
+};
 
 # -- builders & initializers
 

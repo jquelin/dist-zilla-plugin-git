@@ -1,6 +1,8 @@
 Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
+ - use a method modifier to set mvp_multivalue_args in Role::Git::DirtyFiles
+   (This is required by Dist::Zilla 2.) (christopher madsen)
 
 1.100760  2010-03-17 10:16:56 Europe/Paris
  - add a BeforeRelease check in Tag to prevent re-releases (christopher madsen)
