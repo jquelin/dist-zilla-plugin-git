@@ -1,6 +1,8 @@
 Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
+
+1.100900  2010-03-31 10:04:49 Europe/Paris
  - use a method modifier to set mvp_multivalue_args in Role::Git::DirtyFiles
    (This is required by Dist::Zilla 2.) (christopher madsen)
 
