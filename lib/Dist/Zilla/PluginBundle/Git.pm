@@ -10,20 +10,36 @@ use Class::MOP;
 
 with 'Dist::Zilla::Role::PluginBundle';
 
+# bundle all git plugins
+my @names   = qw{ Check Commit Tag Push };
+
+# bundle all git plugins
+my @names   = qw{ Check Commit Tag Push };
+
+my %multi;
+for my $name (@names) {
+    my $class = "Dist::Zilla::Plugin::Git::$name";
+    Class::MOP::load_class($class);
+    @multi{$class->mvp_multivalue_args} = ()
+        if $class->can('mvp_multivalue_args');
+}
+
+sub mvp_multivalue_args { keys %multi; }
+
 sub bundle_config {
     my ($self, $section) = @_;
     my $class = ( ref $self ) || $self;
     my $arg   = $section->{payload};
 
-    # bundle all git plugins
-    my @names   = qw{ Check Commit Tag Push };
-
     my @config;
 
     for my $name (@names) {
         my $class = "Dist::Zilla::Plugin::Git::$name";
-        Class::MOP::load_class($class);
-        push @config, [ "$section->{name}/$name" => $class => $arg ];
+        my %payload;
+        foreach my $k (keys %$arg) {
+            $payload{$k} = $arg->{$k} if $class->can($k);
+        }
+        push @config, [ "$section->{name}/$name" => $class => \%payload ];
     }
 
     return @config;
