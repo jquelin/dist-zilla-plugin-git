@@ -4,6 +4,7 @@
 # avoid dist::zilla generated and utility files
 .build
 _build
+tmp
 
 # avoid temp and backup files.
 *~
