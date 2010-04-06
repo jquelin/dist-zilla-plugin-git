@@ -31,8 +31,9 @@ sub after_release {
     # push everything on remote branch
     for my $remote ( @{ $self->push_to } ) { 
       $self->log("pushing to $remote");
-      $self->log_debug($_) for $git->push( $remote );
-      $self->log_debug($_) for $git->push( { tags=>1 },  $remote );
+      my @remote = split(/\s+/,$remote);
+      $self->log_debug($_) for $git->push( @remote );
+      $self->log_debug($_) for $git->push( { tags=>1 },  $remote[0] );
     }
 }
 
@@ -49,6 +50,7 @@ In your F<dist.ini>:
 
     [Git::Push]
     push_to = origin      ; this is the default
+    push_to = origin HEAD:refs/heads/released ; also push to released branch
 
 
 =head1 DESCRIPTION
