@@ -40,7 +40,7 @@ sub after_release {
 1;
 __END__
 
-=for Pod::Coverage::TrustPod
+=for Pod::Coverage
     after_release
     mvp_multivalue_args
 

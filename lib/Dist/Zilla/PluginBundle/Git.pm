@@ -47,7 +47,7 @@ no Moose;
 1;
 __END__
 
-=for Pod::Coverage::TrustPod
+=for Pod::Coverage
     bundle_config
     mvp_multivalue_args
 

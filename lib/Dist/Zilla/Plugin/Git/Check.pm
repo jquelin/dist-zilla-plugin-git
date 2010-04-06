@@ -59,7 +59,7 @@ sub before_release {
 1;
 __END__
 
-=for Pod::Coverage::TrustPod
+=for Pod::Coverage
     before_release
 
 

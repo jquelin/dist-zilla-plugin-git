@@ -74,7 +74,7 @@ no MooseX::Has::Sugar;
 1;
 __END__
 
-=for Pod::Coverage::TrustPod
+=for Pod::Coverage
     mvp_multivalue_args
 
 =head1 DESCRIPTION
