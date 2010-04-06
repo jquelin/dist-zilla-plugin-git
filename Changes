@@ -1,6 +1,7 @@
 Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
+ - simplify multi-value args for @git (christopher madsen)
  - Require Dist::Zilla 2 (1.100900 needed DZ2, but didn't say so)
 
 1.100960  2010-04-06 16:59:50 Europe/Paris

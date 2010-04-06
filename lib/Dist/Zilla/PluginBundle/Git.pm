@@ -13,15 +13,11 @@ with 'Dist::Zilla::Role::PluginBundle';
 # bundle all git plugins
 my @names   = qw{ Check Commit Tag Push };
 
-# bundle all git plugins
-my @names   = qw{ Check Commit Tag Push };
-
 my %multi;
 for my $name (@names) {
     my $class = "Dist::Zilla::Plugin::Git::$name";
     Class::MOP::load_class($class);
-    @multi{$class->mvp_multivalue_args} = ()
-        if $class->can('mvp_multivalue_args');
+    @multi{$class->mvp_multivalue_args} = ();
 }
 
 sub mvp_multivalue_args { keys %multi; }
@@ -53,6 +49,7 @@ __END__
 
 =for Pod::Coverage::TrustPod
     bundle_config
+    mvp_multivalue_args
 
 =head1 SYNOPSIS
 
