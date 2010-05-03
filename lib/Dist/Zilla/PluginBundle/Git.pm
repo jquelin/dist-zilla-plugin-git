@@ -24,7 +24,7 @@ sub mvp_multivalue_args { keys %multi; }
 
 sub bundle_config {
     my ($self, $section) = @_;
-    my $class = ( ref $self ) || $self;
+    #my $class = ( ref $self ) || $self;
     my $arg   = $section->{payload};
 
     my @config;
