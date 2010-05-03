@@ -1,9 +1,10 @@
 Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
+ - fix brian's name in this file (sorry brian!)
 
 1.101230  2010-05-03 17:10:17 Europe/Paris
- - support for committing results of build in a separate branch (brian philipps)
+ - support for committing results of build in a separate branch (brian phillips)
  - fix test error appearing in weird git configs / setups
 
 1.100970  2010-04-07 08:54:46 Europe/Paris
