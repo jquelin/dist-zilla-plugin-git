@@ -2,6 +2,10 @@ Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
 
+1.101230  2010-05-03 17:10:17 Europe/Paris
+ - support for committing results of build in a separate branch (brian philipps)
+ - fix test error appearing in weird git configs / setups
+
 1.100970  2010-04-07 08:54:46 Europe/Paris
  - simplify multi-value args for @git (christopher madsen)
  - Require Dist::Zilla 2 (1.100900 needed DZ2, but didn't say so)
