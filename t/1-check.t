@@ -22,7 +22,7 @@ my $git   = Git::Wrapper->new('.');
 # create initial .gitignore
 # we cannot ship it in the dist, since PruneCruft plugin would trim it
 append_to_file('.gitignore', 'Foo-*');
-$git->add('.gitignore');
+$git->add( { force => 1 }, '.gitignore');
 $git->commit( { message=>'ignore file for git' } );
 
 # untracked files
