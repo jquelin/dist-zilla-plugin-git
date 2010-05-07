@@ -46,17 +46,22 @@ sub after_build {
 
 	my $exists = eval { $src->rev_parse( '--verify', '-q', $target_branch ); 1; };
 
-	my $build = Git::Wrapper->new( $args->{build_root} );
-	$build->init('-q');
-	$build->remote('add','src',$src_dir);
-	$build->fetch(qw(-q src));
-	if($exists){
-		$build->reset('--soft', "src/$target_branch");
+	eval {
+		my $build = Git::Wrapper->new( $args->{build_root} );
+		$build->init('-q');
+		$build->remote('add','src',$src_dir);
+		$build->fetch(qw(-q src));
+		if($exists){
+			$build->reset('--soft', "src/$target_branch");
+		}
+		$build->add('.');
+		$build->commit('-a', -m => _format_message($self->message, $src));
+		$build->checkout('-b',$target_branch);
+		$build->push('src', $target_branch);
+	};
+	if (my $e = $@) {
+		$self->log_fatal("failed to commit build: $e");
 	}
-	$build->add('.');
-	$build->commit('-a', -m => _format_message($self->message, $src));
-	$build->checkout('-b',$target_branch);
-	$build->push('src', $target_branch);
 }
 
 1;
