@@ -2,6 +2,9 @@ Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
 
+1.101330  2010-05-13 19:27:39 Europe/Paris
+ - git::commit recognizes another changelog format (david golden)
+
 1.101270  2010-05-07 16:56:27 Europe/Paris
  - fix brian's name in this file (sorry brian!)
  - make CommitBuild log error when build commit fails (michael schout)
