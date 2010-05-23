@@ -85,7 +85,7 @@ Once the build is done, this plugin will commit the results of the
 build to a branch that is completely separate from your regular code
 branches (i.e. with a different root commit).  This potentially makes
 your repository more useful to those who may not have L<Dist::Zilla>
-and all of it's dependencies installed.
+and all of its dependencies installed.
 
 The plugin accepts the following options:
 
