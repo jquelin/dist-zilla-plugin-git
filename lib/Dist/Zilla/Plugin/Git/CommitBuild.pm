@@ -8,8 +8,8 @@ package Dist::Zilla::Plugin::Git::CommitBuild;
 use Git::Wrapper;
 use Git;
 use File::chdir;
+use File::Spec::Functions qw/ rel2abs catfile /;
 use File::Temp;
-use File::Spec::Functions;
 use Moose;
 use MooseX::Has::Sugar;
 use MooseX::Types::Moose qw{ Str };
@@ -44,10 +44,10 @@ sub after_build {
     my ( $self, $args) = @_;
 
     my $repo    = Git->repository;
-    my $tmp_dir = File::Temp->newdir;
+    my $tmp_dir = File::Temp->newdir( CLEANUP => 1) ;
     my $src     = Git::Wrapper->new('.');
 
-    my $dir = catfile( $CWD, $args->{build_root} );
+    my $dir = rel2abs( $args->{build_root} );
 
     my $tree = do {
         # don't overwrite the user's index
@@ -85,7 +85,8 @@ sub after_build {
     $out->print( _format_message( $self->message, $src ) );
 
     close $out;
-    open $out, '<', \my $buf;
+    my $buf = '';
+    open $out, '<', \$buf;
 
     chomp( my $commit = <$in> );
 
