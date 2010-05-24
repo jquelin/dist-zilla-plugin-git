@@ -8,6 +8,7 @@ package Dist::Zilla::Plugin::Git::CommitBuild;
 use Git::Wrapper;
 use Git;
 use File::chdir;
+use File::Temp;
 use File::Spec::Functions;
 use Moose;
 use MooseX::Has::Sugar;
@@ -40,53 +41,58 @@ has message => ( ro, isa => Str, default => 'Build results of %h (on %b)', requi
 # -- role implementation
 
 sub after_build {
-	my $self  = shift;
-	my $args  = shift;
+    my ( $self, $args) = @_;
 
-    my $repo = Git->repository;
-    my $tmp_dir = $CWD . '/tmp';
-    
-    my $dir = $args->{build_root};
+    my $repo    = Git->repository;
+    my $tmp_dir = File::Temp->newdir;
+    my $src     = Git::Wrapper->new('.');
+
+    my $dir = catfile( $CWD, $args->{build_root} );
 
     my $tree = do {
         # don't overwrite the user's index
-        local $ENV{GIT_INDEX_FILE} = catfile($tmp_dir, "temp_git_index");
-        local $ENV{GIT_DIR} = catfile( $CWD, '.git' );
-        local $ENV{GIT_WORK_TREE} = $dir;
+        local $ENV{GIT_INDEX_FILE} = catfile( $tmp_dir, "temp_git_index" );
+        local $ENV{GIT_DIR}        = catfile( $CWD,     '.git' );
+        local $ENV{GIT_WORK_TREE}  = $dir;
 
         local $CWD = $dir;
 
         my $write_tree_repo = Git->repository;
 
-        $write_tree_repo->command_noisy( qw(add -v --force .) );
-        $write_tree_repo->command_oneline( "write-tree" );
+        $write_tree_repo->command(qw(add -v --force .));
+        $write_tree_repo->command_oneline("write-tree");
     };
 
-	my $target_branch = _format_branch( $self->branch, $src );
+    my $target_branch = _format_branch( $self->branch, $src );
 
     # no change, abort
-    return unless $repo->command( qw/ diff --stat /, $target_branch, $tree );
+    return
+      if eval {
+              $repo->command_oneline( 'rev-parse', '-q', '--verify',
+                  $target_branch );
+        }
+          and not $repo->command( qw/ diff --stat /, $target_branch, $tree );
 
-    my @parents = map { 
-        $repo->command_oneline("rev-parse", $_ ) }
-        $target_branch, 'HEAD';
+    my @parents = grep {
+        eval { $repo->command_oneline( 'rev-parse', '-q', '--verify', $_ ) }
+    } $target_branch, 'HEAD';
 
-   my ( $pid, $in, $out, $ctx ) = Git::command_bidi_pipe(
-        "commit-tree", $tree,
+    my ( $pid, $in, $out, $ctx ) =
+      Git::command_bidi_pipe( "commit-tree", $tree,
         map { ( -p => $_ ) } @parents,
-    );
+      );
 
-    $out->print(  _format_message($self->message, $src) );
+    $out->print( _format_message( $self->message, $src ) );
 
-       close $out;
+    close $out;
     open $out, '<', \my $buf;
 
-    chomp(my $commit = <$in>);
+    chomp( my $commit = <$in> );
 
-    Git::command_close_bidi_pipe($pid, $in, $out, $ctx);
+    Git::command_close_bidi_pipe( $pid, $in, $out, $ctx );
 
-    $repo->command_noisy('update-ref', 
-        'refs/heads/'.$target_branch, $commit );
+    $repo->command_noisy( 'update-ref', 'refs/heads/' . $target_branch,
+        $commit );
 }
 
 1;
