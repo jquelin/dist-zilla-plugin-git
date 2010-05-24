@@ -6,6 +6,9 @@ package Dist::Zilla::Plugin::Git::CommitBuild;
 # ABSTRACT: checkin build results on separate branch
 
 use Git::Wrapper;
+use Git;
+use File::chdir;
+use File::Spec::Functions;
 use Moose;
 use MooseX::Has::Sugar;
 use MooseX::Types::Moose qw{ Str };
@@ -39,29 +42,51 @@ has message => ( ro, isa => Str, default => 'Build results of %h (on %b)', requi
 sub after_build {
 	my $self  = shift;
 	my $args  = shift;
-	my $src_dir = abs_path('.');
 
-	my $src   = Git::Wrapper->new($src_dir);
+    my $repo = Git->repository;
+    my $tmp_dir = $CWD . '/tmp';
+    
+    my $dir = $args->{build_root};
+
+    my $tree = do {
+        # don't overwrite the user's index
+        local $ENV{GIT_INDEX_FILE} = catfile($tmp_dir, "temp_git_index");
+        local $ENV{GIT_DIR} = catfile( $CWD, '.git' );
+        local $ENV{GIT_WORK_TREE} = $dir;
+
+        local $CWD = $dir;
+
+        my $write_tree_repo = Git->repository;
+
+        $write_tree_repo->command_noisy( qw(add -v --force .) );
+        $write_tree_repo->command_oneline( "write-tree" );
+    };
+
 	my $target_branch = _format_branch( $self->branch, $src );
 
-	my $exists = eval { $src->rev_parse( '--verify', '-q', $target_branch ); 1; };
+    # no change, abort
+    return unless $repo->command( qw/ diff --stat /, $target_branch, $tree );
 
-	eval {
-		my $build = Git::Wrapper->new( $args->{build_root} );
-		$build->init('-q');
-		$build->remote('add','src',$src_dir);
-		$build->fetch(qw(-q src));
-		if($exists){
-			$build->reset('--soft', "src/$target_branch");
-		}
-		$build->add('.');
-		$build->commit('-a', -m => _format_message($self->message, $src));
-		$build->checkout('-b',$target_branch);
-		$build->push('src', $target_branch);
-	};
-	if (my $e = $@) {
-		$self->log_fatal("failed to commit build: $e");
-	}
+    my @parents = map { 
+        $repo->command_oneline("rev-parse", $_ ) }
+        $target_branch, 'HEAD';
+
+   my ( $pid, $in, $out, $ctx ) = Git::command_bidi_pipe(
+        "commit-tree", $tree,
+        map { ( -p => $_ ) } @parents,
+    );
+
+    $out->print(  _format_message($self->message, $src) );
+
+       close $out;
+    open $out, '<', \my $buf;
+
+    chomp(my $commit = <$in>);
+
+    Git::command_close_bidi_pipe($pid, $in, $out, $ctx);
+
+    $repo->command_noisy('update-ref', 
+        'refs/heads/'.$target_branch, $commit );
 }
 
 1;
