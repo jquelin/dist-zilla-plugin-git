@@ -1,3 +1,7 @@
+use 5.010;
+use strict;
+use warnings;
+
 package Dist::Zilla::Plugin::Git::Init;
 # ABSTRACT: initialize git repository on dzil new
 
@@ -23,3 +27,13 @@ sub after_mint {
 }
 
 1;
+__END__
+
+=for Pod::Coverage
+    after_mint
+
+
+=head1 DESCRIPTION
+
+This plugin initializes a git repository when a new distribution is
+created with C<dzil new>.
