@@ -2,6 +2,10 @@ Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
 
+1.101650  2010-06-14 16:08:41 Europe/Paris
+ - basic aftermint plugin to git init while dzil new (jesse luehrs)
+ - build commits have their original branch as parent (yanick champoux)
+
 1.101330  2010-05-13 19:27:39 Europe/Paris
  - git::commit recognizes another changelog format (david golden)
 
