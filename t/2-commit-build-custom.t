@@ -28,4 +28,4 @@ $git->branch(-m => 'dev');
 
 $zilla->build;
 ok( eval { $git->rev_parse('-q', '--verify', 'refs/heads/build-dev') }, 'source repo has the "build-dev" branch') or diag explain $@, $git->branch;
-is( $git->log('build-dev'), 1, 'one commit on the build-dev branch') or diag $git->branch;
+is( $git->log('build-dev'), 2, 'one commit on the build-dev branch') or diag $git->branch;
