@@ -6,7 +6,7 @@ package Dist::Zilla::Plugin::Git::CommitBuild;
 # ABSTRACT: checkin build results on separate branch
 
 use Git::Wrapper;
-use Git;
+use IPC::Open3;
 use File::chdir;
 use File::Spec::Functions qw/ rel2abs catfile /;
 use File::Temp;
@@ -43,7 +43,6 @@ has message => ( ro, isa => Str, default => 'Build results of %h (on %b)', requi
 sub after_build {
     my ( $self, $args) = @_;
 
-    my $repo    = Git->repository;
     my $tmp_dir = File::Temp->newdir( CLEANUP => 1) ;
     my $src     = Git::Wrapper->new('.');
 
@@ -57,10 +56,10 @@ sub after_build {
 
         local $CWD = $dir;
 
-        my $write_tree_repo = Git->repository;
+        my $write_tree_repo = Git::Wrapper->new('.');
 
-        $write_tree_repo->command(qw(add -v --force .));
-        $write_tree_repo->command_oneline("write-tree");
+        $write_tree_repo->add({ v => 1, force => 1}, '.' );
+        ($write_tree_repo->write_tree)[0];
     };
 
     my $target_branch = _format_branch( $self->branch, $src );
@@ -68,32 +67,31 @@ sub after_build {
     # no change, abort
     return
       if eval {
-              $repo->command_oneline( 'rev-parse', '-q', '--verify',
-                  $target_branch );
+              $src->rev_parse({q=>1, verify => 1}, $target_branch );
         }
-          and not $repo->command( qw/ diff --stat /, $target_branch, $tree );
+          and not $src->diff({ 'stat' => 1 }, $target_branch, $tree );
 
     my @parents = grep {
-        eval { $repo->command_oneline( 'rev-parse', '-q', '--verify', $_ ) }
+        eval { $src->rev_parse({ 'q' => 1, 'verify'=>1}, $_ ) }
     } $target_branch, 'HEAD';
 
-    my ( $pid, $in, $out, $ctx ) =
-      Git::command_bidi_pipe( "commit-tree", $tree,
-        map { ( -p => $_ ) } @parents,
-      );
+    my @commit;
+    {
+        # Git::Wrapper doesn't read from STDIN, which is 
+        # needed for commit-tree, so we have to everything
+        # ourselves
+        #
+        open my $wtr, '>', \my $foo;
+        IPC::Open3::open3($wtr, my $rdr, my $err, 'git', 'commit-tree', $tree, map { ( -p => $_ ) } @parents);
 
-    $out->print( _format_message( $self->message, $src ) );
+        print {$wtr} _format_message( $self->message, $src );
+        close $wtr;
+    
+        chomp( @commit = <$rdr> );
 
-    close $out;
-    my $buf = '';
-    open $out, '<', \$buf;
+    }
 
-    chomp( my $commit = <$in> );
-
-    Git::command_close_bidi_pipe( $pid, $in, $out, $ctx );
-
-    $repo->command_noisy( 'update-ref', 'refs/heads/' . $target_branch,
-        $commit );
+    $src->update_ref( 'refs/heads/' . $target_branch, $commit[0] );
 }
 
 1;
