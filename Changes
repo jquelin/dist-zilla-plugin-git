@@ -2,6 +2,9 @@ Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
 
+1.101680  2010-06-17 17:17:07 Europe/Paris
+ - fix rt# 58431 - remove git.pm prereq, use git::wrapper (yanick champoux)
+
 1.101650  2010-06-14 16:08:41 Europe/Paris
  - basic aftermint plugin to git init while dzil new (jesse luehrs)
  - build commits have their original branch as parent (yanick champoux)
