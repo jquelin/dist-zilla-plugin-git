@@ -31,17 +31,32 @@ use String::Formatter (
 	}
 );
 
-with 'Dist::Zilla::Role::AfterBuild';
+with 'Dist::Zilla::Role::AfterBuild', 'Dist::Zilla::Role::BeforeRelease';
 
 # -- attributes
 
 has branch  => ( ro, isa => Str, default => 'build/%b', required => 1 );
+has release_branch  => ( ro, isa => Str, default => 'releases', required => 0 );
 has message => ( ro, isa => Str, default => 'Build results of %h (on %b)', required => 1 );
 
 # -- role implementation
 
 sub after_build {
     my ( $self, $args) = @_;
+
+    $self->commit_build( $args, $self->branch );
+}
+
+sub before_release {
+    my ( $self, $args) = @_;
+
+    $self->commit_build( $args, $self->release_branch );
+}
+
+sub commit_build {
+    my ( $self, $args, $branch ) = @_;
+
+    return unless $branch;
 
     my $tmp_dir = File::Temp->newdir( CLEANUP => 1) ;
     my $src     = Git::Wrapper->new('.');
@@ -62,7 +77,7 @@ sub after_build {
         ($write_tree_repo->write_tree)[0];
     };
 
-    my $target_branch = _format_branch( $self->branch, $src );
+    my $target_branch = _format_branch( $branch, $src );
 
     # no change, abort
     return
