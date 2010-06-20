@@ -28,7 +28,7 @@ with 'Dist::Zilla::Role::AfterRelease';
 
 has tag_format  => ( ro, isa=>Str, default => 'v%v' );
 has tag_message => ( ro, isa=>Str, default => 'v%v' );
-
+has branch => ( ro, isa=>Str );
 
 # -- role implementation
 
@@ -53,7 +53,7 @@ sub after_release {
 
     # create a tag with the new version
     my $tag = _format_tag($self->tag_format, $self->zilla);
-    $git->tag( @opts, $tag );
+    $git->tag( @opts, $tag, ( $self->branch ) x !!$self->branch );
     $self->log("Tagged $tag");
 }
 
@@ -94,7 +94,6 @@ The plugin accepts the following options:
 =item * tag_message - format of the commit message. Defaults to C<v%v>.
 Use C<tag_message = > to create a lightweight tag.
 
-=back
 
 You can use the following codes in both options:
 
@@ -116,5 +115,9 @@ the distribution name
 =item C<%v>
 
 the distribution version
+
+=back
+
+=item * branch - which branch to tag. Defaults to current branch.
 
 =back
