@@ -31,7 +31,7 @@ use String::Formatter (
 	}
 );
 
-with 'Dist::Zilla::Role::AfterBuild', 'Dist::Zilla::Role::BeforeRelease';
+with 'Dist::Zilla::Role::AfterBuild', 'Dist::Zilla::Role::AfterRelease';
 
 # -- attributes
 
@@ -47,7 +47,7 @@ sub after_build {
     $self->commit_build( $args, $self->branch );
 }
 
-sub before_release {
+sub after_release {
     my ( $self, $args) = @_;
 
     $self->commit_build( $args, $self->release_branch );
@@ -114,6 +114,7 @@ __END__
 
 =for Pod::Coverage
     after_build
+    after_release
 
 =head1 SYNOPSIS
 
@@ -142,6 +143,11 @@ build contents
 A single formatting code (C<%b>) is defined for this attribute and will be
 substituted with the name of the current branch in your git repository.
 
+=item * release_branch - L<String::Formatter> string for where to commit the
+build contents
+
+Same as C<branch>, but commit the build content only after a release.
+
 =item * message - L<String::Formatter> string for what commit message
 to use when committing the results of the build.
 
@@ -156,6 +162,7 @@ This option supports three formatting codes:
 =item * C<%h> - Abbreviated commit hash
 
 =back
+
 
 =back
 
