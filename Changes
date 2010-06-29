@@ -2,6 +2,9 @@ Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
 
+1.101801  2010-06-29 19:00:13 Europe/Paris
+ - fix rt#56485 - skip push tests for old git versions
+
 1.101800  2010-06-29 18:36:17 Europe/Paris
  - git::commitbuild - new release_branch option to commit result after a
    release (yanick champoux)
