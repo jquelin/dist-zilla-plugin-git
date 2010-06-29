@@ -9,7 +9,8 @@ use Cwd          qw{ getcwd  };
 use File::Temp   qw{ tempdir };
 use Git::Wrapper;
 use Path::Class;
-use Test::More   tests => 3;
+use Test::More;
+use version;
 
 # build fake repository
 my $zilla = Dist::Zilla::Tester->from_config({
@@ -18,7 +19,15 @@ my $zilla = Dist::Zilla::Tester->from_config({
 
 chdir $zilla->tempdir->subdir('source');
 system "git init";
-my $git   = Git::Wrapper->new('.');
+my $git = Git::Wrapper->new('.');
+
+# rt#56485 - skip test to avoid failures for old git versions
+my $gitversion = version->parse( $git->version );
+if ( $gitversion < version->parse('1.7.0') ) {
+    plan skip_all => 'git 1.7.0 or later required for this test';
+} else {
+    plan tests => 3;
+}
 
 $git->config( 'user.name'  => 'dzp-git test' );
 $git->config( 'user.email' => 'dzp-git@test' );
