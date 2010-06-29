@@ -85,39 +85,47 @@ doesn't already exist.  (You would have to manually delete the
 existing tag before you could release the same version again, but that
 is almost never a good idea.)
 
+
+=head2 Plugin options
+
 The plugin accepts the following options:
 
 =over 4
 
-=item * tag_format - format of the tag to apply. Defaults to C<v%v>.
+=item * tag_format - format of the tag to apply. Defaults to C<v%v>, see
+C<Formatting options> below.
 
-=item * tag_message - format of the commit message. Defaults to C<v%v>.
-Use C<tag_message = > to create a lightweight tag.
+=item * tag_message - format of the commit message. Defaults to C<v%v>,
+see C<Formatting options> below. Use C<tag_message = > to create a
+lightweight tag.
+
+=item * branch - which branch to tag. Defaults to current branch.
+
+=back
 
 
-You can use the following codes in both options:
+=head2 Formatting options
+
+Some plugin options allow you to customize the tag content. You can use
+the following codes at your convenience:
 
 =over 4
 
 =item C<%{dd-MMM-yyyy}d>
 
 The current date.  You can use any CLDR format supported by
-L<DateTime>.  A bare C<%d> means C<%{dd-MMM-yyyy}d>.
+L<DateTime>. A bare C<%d> means C<%{dd-MMM-yyyy}d>.
 
 =item C<%n>
 
-a newline
+A newline
 
 =item C<%N>
 
-the distribution name
+The distribution name
 
 =item C<%v>
 
-the distribution version
-
-=back
-
-=item * branch - which branch to tag. Defaults to current branch.
+The distribution version
 
 =back
