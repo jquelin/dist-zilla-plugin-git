@@ -28,7 +28,7 @@ with 'Dist::Zilla::Role::AfterRelease';
 
 has tag_format  => ( ro, isa=>Str, default => 'v%v' );
 has tag_message => ( ro, isa=>Str, default => 'v%v' );
-has branch => ( ro, isa=>Str );
+has branch => ( ro, isa=>Str, predicate=>'has_branch' );
 
 # -- role implementation
 
@@ -50,10 +50,11 @@ sub after_release {
     my @opts = $self->tag_message
         ? ( '-m' => _format_tag($self->tag_message, $self->zilla) )
         : ();
+    my @branch = $self->has_branch ? ( $self->branch ) : ();
 
     # create a tag with the new version
     my $tag = _format_tag($self->tag_format, $self->zilla);
-    $git->tag( @opts, $tag, ( $self->branch ) x !!$self->branch );
+    $git->tag( @opts, $tag, @branch );
     $self->log("Tagged $tag");
 }
 
