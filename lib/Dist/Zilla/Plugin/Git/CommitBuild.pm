@@ -44,16 +44,16 @@ has message => ( ro, isa => Str, default => 'Build results of %h (on %b)', requi
 sub after_build {
     my ( $self, $args) = @_;
 
-    $self->commit_build( $args, $self->branch );
+    $self->_commit_build( $args, $self->branch );
 }
 
 sub after_release {
     my ( $self, $args) = @_;
 
-    $self->commit_build( $args, $self->release_branch );
+    $self->_commit_build( $args, $self->release_branch );
 }
 
-sub commit_build {
+sub _commit_build {
     my ( $self, $args, $branch ) = @_;
 
     return unless $branch;
