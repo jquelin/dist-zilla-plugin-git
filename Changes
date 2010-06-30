@@ -2,6 +2,15 @@ Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
 
+1.101801  2010-06-29 19:00:13 Europe/Paris
+ - fix rt#56485 - skip push tests for old git versions
+
+1.101800  2010-06-29 18:36:17 Europe/Paris
+ - git::commitbuild - new release_branch option to commit result after a
+   release (yanick champoux)
+ - git::tag - tag can be applied to a different branch (yanick champoux)
+ - fix rt#58876 - pod description out of date
+
 1.101680  2010-06-17 17:17:07 Europe/Paris
  - fix rt# 58431 - remove git.pm prereq, use git::wrapper (yanick champoux)
 
