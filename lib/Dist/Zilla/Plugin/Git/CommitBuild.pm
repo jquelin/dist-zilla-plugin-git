@@ -38,11 +38,16 @@ with 'Dist::Zilla::Role::AfterBuild', 'Dist::Zilla::Role::AfterRelease';
 has branch  => ( ro, isa => Str, default => 'build/%b', required => 1 );
 has release_branch  => ( ro, isa => Str, default => 'releases', required => 0 );
 has message => ( ro, isa => Str, default => 'Build results of %h (on %b)', required => 1 );
+has build_root => ( rw );
 
 # -- role implementation
 
 sub after_build {
     my ( $self, $args) = @_;
+
+    # because the build_root mysteriously change at
+    # the 'after_release' stage
+    $self->build_root( $args->{build_root} );
 
     $self->_commit_build( $args, $self->branch );
 }
@@ -61,7 +66,7 @@ sub _commit_build {
     my $tmp_dir = File::Temp->newdir( CLEANUP => 1) ;
     my $src     = Git::Wrapper->new('.');
 
-    my $dir = rel2abs( $args->{build_root} );
+    my $dir = rel2abs( $self->build_root );
 
     my $tree = do {
         # don't overwrite the user's index
