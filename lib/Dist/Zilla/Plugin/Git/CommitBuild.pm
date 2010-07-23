@@ -59,7 +59,7 @@ sub after_release {
 }
 
 sub _commit_build {
-    my ( $self, $args, $branch ) = @_;
+    my ( $self, undef, $branch ) = @_;
 
     return unless $branch;
 
