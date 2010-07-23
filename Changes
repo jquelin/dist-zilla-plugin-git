@@ -2,6 +2,13 @@ Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
 
+1.102020  2010-07-21 09:00:46 Europe/Paris
+ - fix rt#59586 - there should be no release branch by default for git::commitbuild
+   warning: this changes behaviour of git::commitbuild
+
+1.102010  2010-07-20 11:00:36 Europe/Paris
+ - fix rt#59505 - support for unstable git versions in push test skips
+
 1.101801  2010-06-29 19:00:13 Europe/Paris
  - fix rt#56485 - skip push tests for old git versions
 

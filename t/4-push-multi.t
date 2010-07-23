@@ -22,7 +22,8 @@ system "git init";
 my $git = Git::Wrapper->new('.');
 
 # rt#56485 - skip test to avoid failures for old git versions
-my $gitversion = version->parse( $git->version );
+my ($version) = $git->version =~ m[^( \d+ \. \d+ \. \d+ )]x;
+my $gitversion = version->parse( $version );
 if ( $gitversion < version->parse('1.7.0') ) {
     plan skip_all => 'git 1.7.0 or later required for this test';
 } else {
