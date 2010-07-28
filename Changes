@@ -2,6 +2,9 @@ Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
 
+1.102090  2010-07-28 14:12:20 Europe/Paris
+ - initialize a working git config in all tests
+
 1.102040  2010-07-23 10:45:23 Europe/Paris
  - fix rt#59587 - cache buildroot to commit on master, not release
    branch (yanick champoux)
