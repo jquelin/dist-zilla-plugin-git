@@ -39,6 +39,8 @@ my $zilla2 = Dist::Zilla::Tester->from_config({
 chdir $zilla2->tempdir->subdir('source');
 system "git init -q";
 my $git2 = Git::Wrapper->new('.');
+$git2->config( 'user.name'  => 'dzp-git test' );
+$git2->config( 'user.email' => 'dzp-git@test' );
 $git2->remote('add','origin', $zilla->tempdir->subdir('source'));
 $git2->fetch;
 $git2->reset('--hard','origin/master');
@@ -58,6 +60,8 @@ my $zilla3 = Dist::Zilla::Tester->from_config({
 chdir $zilla3->tempdir->subdir('source');
 system "git init -q";
 my $git3 = Git::Wrapper->new('.');
+$git3->config( 'user.name'  => 'dzp-git test' );
+$git3->config( 'user.email' => 'dzp-git@test' );
 $git3->remote('add','origin', $zilla->tempdir->subdir('source'));
 $git3->fetch;
 $git3->branch('build/master', 'origin/build/master');
