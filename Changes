@@ -2,6 +2,9 @@ Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
 
+1.102380  2010-08-26 09:39:33 Europe/Paris
+ - fix hang on windows (alexandr ciornii)
+
 1.102090  2010-07-28 14:12:20 Europe/Paris
  - initialize a working git config in all tests
 
