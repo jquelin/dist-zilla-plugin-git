@@ -101,13 +101,16 @@ sub _commit_build {
         # needed for commit-tree, so we have to everything
         # ourselves
         #
-        open my $wtr, '>', \my $foo;
-        IPC::Open3::open3($wtr, my $rdr, my $err, 'git', 'commit-tree', $tree, map { ( -p => $_ ) } @parents);
+        my ($fh, $filename) = File::Temp::tempfile();
+        $fh->autoflush(1);
+        print $fh _format_message( $self->message, $src );
 
-        print {$wtr} _format_message( $self->message, $src );
-        close $wtr;
-    
-        chomp( @commit = <$rdr> );
+        my @args=('git', 'commit-tree', $tree, map { ( -p => $_ ) } @parents);
+        push @args,'<'.$filename;
+        my $cmdline=join(' ',@args);
+        @commit=qx/$cmdline/;
+
+        chomp(@commit);
 
     }
 
