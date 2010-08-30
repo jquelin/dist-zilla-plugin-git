@@ -29,6 +29,14 @@ with 'Dist::Zilla::Role::AfterRelease';
 has tag_format  => ( ro, isa=>Str, default => 'v%v' );
 has tag_message => ( ro, isa=>Str, default => 'v%v' );
 has branch => ( ro, isa=>Str, predicate=>'has_branch' );
+has tag => ( ro, isa => Str, lazy_build => 1, );
+
+sub _build_tag
+{
+    my $self = shift;
+    return _format_tag($self->tag_format, $self->zilla);
+}
+
 
 # -- role implementation
 
@@ -37,7 +45,7 @@ sub before_release {
     my $git  = Git::Wrapper->new('.');
 
     # Make sure a tag with the new version doesn't exist yet:
-    my $tag = _format_tag($self->tag_format, $self->zilla);
+    my $tag = $self->tag;
     $self->log_fatal("tag $tag already exists")
         if $git->tag('-l', $tag );
 }
@@ -53,7 +61,7 @@ sub after_release {
     my @branch = $self->has_branch ? ( $self->branch ) : ();
 
     # create a tag with the new version
-    my $tag = _format_tag($self->tag_format, $self->zilla);
+    my $tag = $self->tag;
     $git->tag( @opts, $tag, @branch );
     $self->log("Tagged $tag");
 }

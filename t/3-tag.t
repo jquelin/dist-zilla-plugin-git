@@ -7,7 +7,7 @@ use Dist::Zilla  1.093250;
 use Dist::Zilla::Tester;
 use Git::Wrapper;
 use Path::Class;
-use Test::More   tests => 3;
+use Test::More   tests => 4;
 
 # build fake repository
 my $zilla = Dist::Zilla::Tester->from_config({
@@ -30,6 +30,7 @@ $zilla->release;
 my @tags = $git->tag;
 is( scalar(@tags), 1, 'one tag created' );
 is( $tags[0], 'v1.23', 'new tag created after new version' );
+is( $tags[0], $zilla->plugin_named('Git::Tag')->tag(), 'new tag matches the tag the plugin claims is the tag.');
 
 # attempting to release again should fail
 eval { $zilla->release };
