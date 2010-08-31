@@ -29,6 +29,16 @@ with 'Dist::Zilla::Role::AfterRelease';
 has tag_format  => ( ro, isa=>Str, default => 'v%v' );
 has tag_message => ( ro, isa=>Str, default => 'v%v' );
 has branch => ( ro, isa=>Str, predicate=>'has_branch' );
+
+=method tag
+
+    my $tag = $plugin->tag;
+
+Return the tag that will be / has been applied by the plugin. That is,
+returns C<tag_format> as completed with the real values.
+
+=cut
+
 has tag => ( ro, isa => Str, lazy_build => 1, );
 
 sub _build_tag
