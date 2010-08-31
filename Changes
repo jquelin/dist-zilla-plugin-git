@@ -2,6 +2,9 @@ Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
 
+1.102430  2010-08-31 17:12:24 Europe/Paris
+ - fix rt#60740 - allow retrieval of applied tag in git (matt follett)
+
 1.102380  2010-08-26 09:39:33 Europe/Paris
  - fix hang on windows (alexandr ciornii)
 
