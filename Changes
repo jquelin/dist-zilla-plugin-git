@@ -1,6 +1,7 @@
 Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
+ - add Git::NextVersion adapted from BumpVersionFromGit (dagolden)
 
 1.102430  2010-08-31 17:12:24 Europe/Paris
  - fix rt#60740 - allow retrieval of applied tag in git (matt follett)
