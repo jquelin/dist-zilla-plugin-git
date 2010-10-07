@@ -1,8 +1,5 @@
-#!perl
-
 use strict;
 use warnings;
-use lib 't/lib';
 
 use Dist::Zilla::Tester;
 use Git::Wrapper;
