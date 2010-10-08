@@ -1,6 +1,8 @@
 Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
+
+1.102810  2010-10-08 18:01:32 Europe/Paris
  - add Git::NextVersion adapted from BumpVersionFromGit (dagolden)
 
 1.102430  2010-08-31 17:12:24 Europe/Paris
