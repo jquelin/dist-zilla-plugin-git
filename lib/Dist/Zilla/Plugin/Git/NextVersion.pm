@@ -28,6 +28,8 @@ sub provide_version {
   # override (or maybe needed to initialize)
   return $ENV{V} if exists $ENV{V};
 
+  local $/ = "\n"; # Force record separator to be single newline
+
   my $git  = Git::Wrapper->new('.');
   my $regexp = $self->version_regexp;
 
