@@ -17,6 +17,8 @@ use String::Formatter method_stringf => {
                        ->format_cldr($_[1] || 'dd-MMM-yyyy') },
     n => sub { "\n" },
     N => sub { $_[0]->zilla->name },
+    t => sub { $_[0]->zilla->is_trial
+                 ? (defined $_[1] ? $_[1] : '-TRIAL') : '' },
     v => sub { $_[0]->zilla->version },
   },
 };
@@ -147,6 +149,11 @@ A newline
 =item C<%N>
 
 The distribution name
+
+=item C<%{-TRIAL}t>
+
+Expands to -TRIAL (or any other supplied string) if this is a trial
+release, or the empty string if not.  A bare C<%t> means C<%{-TRIAL}t>.
 
 =item C<%v>
 
