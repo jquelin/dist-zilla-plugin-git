@@ -1,6 +1,8 @@
 Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
+ - add time_zone option to Tag & Commit (christopher madsen)
+   It now defaults to your local time.  Previous versions always used UTC.
 
 1.102810  2010-10-08 18:01:32 Europe/Paris
  - add Git::NextVersion adapted from BumpVersionFromGit (dagolden)

@@ -13,10 +13,11 @@ use String::Formatter method_stringf => {
   -as => '_format_tag',
   codes => {
     d => sub { require DateTime;
-               DateTime->now->format_cldr($_[1] || 'dd-MMM-yyyy') },
+               DateTime->now(time_zone => $_[0]->time_zone)
+                       ->format_cldr($_[1] || 'dd-MMM-yyyy') },
     n => sub { "\n" },
-    N => sub { $_[0]->name },
-    v => sub { $_[0]->version },
+    N => sub { $_[0]->zilla->name },
+    v => sub { $_[0]->zilla->version },
   },
 };
 
@@ -28,6 +29,7 @@ with 'Dist::Zilla::Role::AfterRelease';
 
 has tag_format  => ( ro, isa=>Str, default => 'v%v' );
 has tag_message => ( ro, isa=>Str, default => 'v%v' );
+has time_zone   => ( ro, isa=>Str, default => 'local' );
 has branch => ( ro, isa=>Str, predicate=>'has_branch' );
 
 =method tag
@@ -44,7 +46,7 @@ has tag => ( ro, isa => Str, lazy_build => 1, );
 sub _build_tag
 {
     my $self = shift;
-    return _format_tag($self->tag_format, $self->zilla);
+    return _format_tag($self->tag_format, $self);
 }
 
 
@@ -66,7 +68,7 @@ sub after_release {
 
     # Make an annotated tag if tag_message, lightweight tag otherwise:
     my @opts = $self->tag_message
-        ? ( '-m' => _format_tag($self->tag_message, $self->zilla) )
+        ? ( '-m' => _format_tag($self->tag_message, $self) )
         : ();
     my @branch = $self->has_branch ? ( $self->branch ) : ();
 
@@ -117,6 +119,9 @@ C<Formatting options> below.
 =item * tag_message - format of the commit message. Defaults to C<v%v>,
 see C<Formatting options> below. Use C<tag_message = > to create a
 lightweight tag.
+
+=item * time_zone - the time zone to use with C<%d>.  Can be any
+time zone name accepted by DateTime.  Defaults to C<local>.
 
 =item * branch - which branch to tag. Defaults to current branch.
 
