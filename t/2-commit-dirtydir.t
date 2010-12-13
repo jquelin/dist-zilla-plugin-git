@@ -1,0 +1,50 @@
+#!perl
+
+use strict;
+use warnings;
+
+use Dist::Zilla  1.093250;
+use Dist::Zilla::Tester;
+use Git::Wrapper;
+use Path::Class;
+use lib 't/lib';
+use Test::More   tests => 3;
+
+# build fake repository
+my $zilla = Dist::Zilla::Tester->from_config({
+  dist_root => dir(qw(t commit-dirtydir)),
+});
+
+chdir $zilla->tempdir->subdir('source');
+system "git init";
+my $git = Git::Wrapper->new('.');
+$git->config( 'user.name'  => 'dzp-git test' );
+$git->config( 'user.email' => 'dzp-git@test' );
+$git->add( qw{ dist.ini Changes } );
+$git->commit( { message => 'initial commit' } );
+
+# do a release, with changes and dist.ini updated
+append_to_file('Changes',  "\n");
+append_to_file('dist.ini', "\n");
+$zilla->release;
+
+# check if dist.ini and changelog have been committed
+my ($log) = $git->log( 'HEAD' );
+is( $log->message, "v1.23\n\n- foo\n- bar\n- baz\n", 'commit message taken from changelog' );
+
+# check if we committed our tarball
+my @files = $git->ls_files( { cached => 1 } );
+ok( ( grep { $_ =~ /releases/ } @files ), "We committed the tarball" );
+
+# We should have no dirty files uncommitted
+# ignore the "DZP-git.9y5u" temp file, ha!
+@files = $git->ls_files( { others => 1, modified => 1, unmerged => 1 } );
+ok( @files == 1, "No untracked files left" );
+
+sub append_to_file {
+    my ($file, @lines) = @_;
+    open my $fh, '>>', $file or die "can't open $file: $!";
+    print $fh @lines;
+    close $fh;
+}
+

@@ -10,6 +10,7 @@ use Git::Wrapper;
 use Moose;
 use MooseX::Has::Sugar;
 use MooseX::Types::Moose qw{ Str };
+use Path::Class::Dir ();
 
 use String::Formatter method_stringf => {
   -as => '_format_string',
@@ -34,9 +35,11 @@ with 'Dist::Zilla::Role::Git::DirtyFiles';
 
 has commit_msg => ( ro, isa=>Str, default => 'v%v%n%n%c' );
 has time_zone  => ( ro, isa=>Str, default => 'local' );
-
+has dirty_dir  => ( ro, isa=>'ArrayRef[Str]', default => sub { [] } );
 
 # -- public methods
+
+sub mvp_multivalue_args { qw( dirty_dir ) }
 
 sub after_release {
     my $self = shift;
@@ -48,7 +51,22 @@ sub after_release {
     # otherwise before_release would have failed, ending the release
     # process.
     @output = sort { lc $a cmp lc $b } $self->list_dirty_files($git, 1);
-    return unless @output;
+
+    # add the files in dirty_dir to be committed
+    if ( @{ $self->dirty_dir } ) {
+        my @untracked_files = $git->ls_files( { others=>1, 'exclude-standard'=>1 } );
+        foreach my $f ( @untracked_files ) {
+            foreach my $path ( @{ $self->dirty_dir } ) {
+                if ( Path::Class::Dir->new( $path )->subsumes( $f ) ) {
+                    push( @output, $f );
+                    last;
+                }
+            }
+        }
+    }
+
+    # if nothing to commit, we're done!
+    return unless @output;    
 
     # write commit message in a temp file
     my ($fh, $filename) = tempfile( 'DZP-git.XXXX', UNLINK => 1 );
@@ -99,7 +117,7 @@ sub _get_changes {
 __END__
 
 =for Pod::Coverage
-    after_release
+    after_release mvp_multivalue_args
 
 
 =head1 SYNOPSIS
@@ -133,6 +151,10 @@ C<v%v%n%n%c>, meaning the version number and the list of changes.
 
 =item * time_zone - the time zone to use with C<%d>.  Can be any
 time zone name accepted by DateTime.  Defaults to C<local>.
+
+=item * dirty_dir - a path that will have it's contents checked in if
+it is locally modified. This option may appear multiple times. The default
+list is empty.
 
 =back
 
