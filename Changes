@@ -1,7 +1,8 @@
 Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
- - add dirty_dir to Commit so you can commit an entire dir (Apocalypse)
+ - add 'add_files_in' to Commit so you can commit an entire dir (Apocalypse)
+   If you need the same concept for Check please let us know!
 
 1.110480  2011-02-17 18:03:06 Europe/Paris
  - CommitBuild support for release_message (nigel metheringham)

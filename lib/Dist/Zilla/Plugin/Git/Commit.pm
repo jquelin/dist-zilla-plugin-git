@@ -35,11 +35,11 @@ with 'Dist::Zilla::Role::Git::DirtyFiles';
 
 has commit_msg => ( ro, isa=>Str, default => 'v%v%n%n%c' );
 has time_zone  => ( ro, isa=>Str, default => 'local' );
-has dirty_dir  => ( ro, isa=>'ArrayRef[Str]', default => sub { [] } );
+has add_files_in  => ( ro, isa=>'ArrayRef[Str]', default => sub { [] } );
 
 # -- public methods
 
-sub mvp_multivalue_args { qw( dirty_dir ) }
+sub mvp_multivalue_args { qw( add_files_in ) }
 
 sub after_release {
     my $self = shift;
@@ -52,11 +52,11 @@ sub after_release {
     # process.
     @output = sort { lc $a cmp lc $b } $self->list_dirty_files($git, 1);
 
-    # add the files in dirty_dir to be committed
-    if ( @{ $self->dirty_dir } ) {
+    # add any other untracked files to the commit list
+    if ( @{ $self->add_files_in } ) {
         my @untracked_files = $git->ls_files( { others=>1, 'exclude-standard'=>1 } );
         foreach my $f ( @untracked_files ) {
-            foreach my $path ( @{ $self->dirty_dir } ) {
+            foreach my $path ( @{ $self->add_files_in } ) {
                 if ( Path::Class::Dir->new( $path )->subsumes( $f ) ) {
                     push( @output, $f );
                     last;
@@ -146,15 +146,19 @@ The plugin accepts the following options:
 modified.  This option may appear multiple times.  The default
 list is F<dist.ini> and the changelog file given by C<changelog>.
 
+=item * add_files_in - a path that will have its new files checked in.
+This option may appear multiple times. This is used to add files
+generated during build-time to the repository, for example. The default
+list is empty.
+
+Note: The files have to be generated between those phases: BeforeRelease
+E<lt>-E<gt> AfterRelease, and after Git::Check + before Git::Commit.
+
 =item * commit_msg - the commit message to use. Defaults to
 C<v%v%n%n%c>, meaning the version number and the list of changes.
 
 =item * time_zone - the time zone to use with C<%d>.  Can be any
 time zone name accepted by DateTime.  Defaults to C<local>.
-
-=item * dirty_dir - a path that will have it's contents checked in if
-it is locally modified. This option may appear multiple times. The default
-list is empty.
 
 =back
 
