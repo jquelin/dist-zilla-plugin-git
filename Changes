@@ -1,7 +1,7 @@
 Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
- - add remote option to Init (christopher madsen)
+ - add config & remote options to Init (christopher madsen)
 
 1.103470  2010-12-13 17:32:36 Europe/Paris
  - add time_zone option to Tag & Commit (christopher madsen)

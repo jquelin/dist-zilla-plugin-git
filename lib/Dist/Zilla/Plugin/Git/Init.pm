@@ -35,8 +35,14 @@ has remotes => (
   default => sub { [] },
 );
 
-sub mvp_multivalue_args { qw(remotes) }
-sub mvp_aliases { return { remote => 'remotes' } }
+has config_entries => (
+  is   => 'ro',
+  isa  => 'ArrayRef[Str]',
+  default => sub { [] },
+);
+
+sub mvp_multivalue_args { qw(config_entries remotes) }
+sub mvp_aliases { return { config => 'config_entries', remote => 'remotes' } }
 
 sub after_mint {
     my $self = shift;
@@ -44,11 +50,18 @@ sub after_mint {
     my $git = Git::Wrapper->new($opts->{mint_root});
     $self->log("Initializing a new git repository in " . $opts->{mint_root});
     $git->init;
+
+    foreach my $configSpec (@{ $self->config_entries }) {
+      my ($option, $value) = split ' ', _format_string($configSpec, $self), 2;
+      $self->log_debug("Configuring $option $value");
+      $git->config($option, $value);
+    }
+
     $git->add($opts->{mint_root});
     $git->commit({message => _format_string($self->commit_message, $self)});
     foreach my $remoteSpec (@{ $self->remotes }) {
       my ($remote, $url) = split ' ', _format_string($remoteSpec, $self), 2;
-      $self->log("Adding remote $remote as $url");
+      $self->log_debug("Adding remote $remote as $url");
       $git->remote(add => $remote, $url);
     }
 }
@@ -67,6 +80,7 @@ In your F<profile.ini>:
     [Git::Init]
     commit_message = initial commit  ; this is the default
     remote = origin git@github.com:USERNAME/%{lc}N.git ; no default
+    config = user.email USERID@cpan.org  ; there is no default
 
 =head1 DESCRIPTION
 
@@ -83,6 +97,10 @@ The plugin accepts the following options:
 =item * commit_message - the commit message to use when checking in
 the newly-minted dist. Defaults to C<initial commit>.
 
+=item * config - a config setting to make in the repository.  No
+config entries are made by default.  A setting is specified as
+C<OPTION VALUE>.  This may be specified multiple times to add multiple entries.
+
 =item * remote - a remote to add to the repository.  No remotes are
 added by default.  A remote is specified as C<NAME URL>.  This may be
 specified multiple times to add multiple remotes.
@@ -91,7 +109,7 @@ specified multiple times to add multiple remotes.
 
 =head2 Formatting options
 
-You can use the following codes in C<commit_message> or C<remote>:
+You can use the following codes in C<commit_message>, C<config>, or C<remote>:
 
 =over 4
 
