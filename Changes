@@ -1,6 +1,8 @@
 Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
+
+1.103500  2010-12-16 11:44:32 Europe/Paris
  - add config & remote options to Init (christopher madsen)
 
 1.103470  2010-12-13 17:32:36 Europe/Paris
