@@ -1,6 +1,8 @@
 Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
+
+1.103520  2010-12-18 09:45:57 Europe/Paris
  - fix Commit so %t actually works (christopher madsen)
 
 1.103500  2010-12-16 11:44:32 Europe/Paris
