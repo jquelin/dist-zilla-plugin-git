@@ -1,6 +1,8 @@
 Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
+
+1.110330  2011-02-02 10:36:33 Europe/Paris
  - fix rt#62484 - add a link to Git::NextVersion in main documentation
 
 1.103520  2010-12-18 09:45:57 Europe/Paris
