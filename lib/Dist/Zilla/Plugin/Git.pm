@@ -26,6 +26,8 @@ following plugins are provided in this distribution:
 
 =item * L<Dist::Zilla::Plugin::Git::Init>
 
+=item * L<Dist::Zilla::Plugin::Git::NextVersion>
+
 =item * L<Dist::Zilla::Plugin::Git::Push>
 
 =item * L<Dist::Zilla::Plugin::Git::Tag>

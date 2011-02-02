@@ -1,6 +1,7 @@
 Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
+ - fix rt#62484 - add a link to Git::NextVersion in main documentation
 
 1.103520  2010-12-18 09:45:57 Europe/Paris
  - fix Commit so %t actually works (christopher madsen)
