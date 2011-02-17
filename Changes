@@ -2,6 +2,11 @@ Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
 
+1.110480  2011-02-17 18:03:06 Europe/Paris
+ - CommitBuild support for release_message (nigel metheringham)
+ - Also supports %v & %t format tags, more appropriate for message on
+   commit build of the released package (nigel metheringham)
+
 1.110330  2011-02-02 10:36:33 Europe/Paris
  - fix rt#62484 - add a link to Git::NextVersion in main documentation
 
