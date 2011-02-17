@@ -24,9 +24,11 @@ use String::Formatter (
 	method_stringf => {
 		-as   => '_format_message',
 		codes => {
-			b => sub { (shift->name_rev( '--name-only', 'HEAD' ))[0] },
-			h => sub { (shift->rev_parse( '--short',    'HEAD' ))[0] },
-			H => sub { (shift->rev_parse('HEAD'))[0] },
+			b => sub { (shift->_git->name_rev( '--name-only', 'HEAD' ))[0] },
+			h => sub { (shift->_git->rev_parse( '--short',    'HEAD' ))[0] },
+			H => sub { (shift->_git->rev_parse('HEAD'))[0] },
+		    t => sub { shift->zilla->is_trial ? '-TRIAL' : '' },
+		    v => sub { shift->zilla->version },
 		}
 	}
 );
@@ -38,7 +40,13 @@ with 'Dist::Zilla::Role::AfterBuild', 'Dist::Zilla::Role::AfterRelease';
 has branch  => ( ro, isa => Str, default => 'build/%b', required => 1 );
 has release_branch  => ( ro, isa => Str, required => 0 );
 has message => ( ro, isa => Str, default => 'Build results of %h (on %b)', required => 1 );
+has release_message => ( ro, isa => Str, lazy => 1, builder => '_build_release_message' );
 has build_root => ( rw );
+has _git => (rw, weak_ref => 1);
+
+# -- attribute builders
+
+sub _build_release_message { return shift->message; }
 
 # -- role implementation
 
@@ -49,22 +57,23 @@ sub after_build {
     # the 'after_release' stage
     $self->build_root( $args->{build_root} );
 
-    $self->_commit_build( $args, $self->branch );
+    $self->_commit_build( $args, $self->branch, $self->message );
 }
 
 sub after_release {
     my ( $self, $args) = @_;
 
-    $self->_commit_build( $args, $self->release_branch );
+    $self->_commit_build( $args, $self->release_branch, $self->release_message );
 }
 
 sub _commit_build {
-    my ( $self, undef, $branch ) = @_;
+    my ( $self, undef, $branch, $message ) = @_;
 
     return unless $branch;
 
     my $tmp_dir = File::Temp->newdir( CLEANUP => 1) ;
     my $src     = Git::Wrapper->new('.');
+    $self->_git($src);
 
     my $dir = rel2abs( $self->build_root );
 
@@ -103,7 +112,7 @@ sub _commit_build {
         #
         my ($fh, $filename) = File::Temp::tempfile();
         $fh->autoflush(1);
-        print $fh _format_message( $self->message, $src );
+        print $fh _format_message( $message, $self );
 
         my @args=('git', 'commit-tree', $tree, map { ( -p => $_ ) } @parents);
         push @args,'<'.$filename;
@@ -146,10 +155,13 @@ The plugin accepts the following options:
 =over 4
 
 =item * branch - L<String::Formatter> string for where to commit the
-build contents
+build contents.
 
 A single formatting code (C<%b>) is defined for this attribute and will be
 substituted with the name of the current branch in your git repository.
+
+Defaults to C<build/%b>, but if set explicitly to an empty string
+causes no build contents checkin to be made.
 
 =item * release_branch - L<String::Formatter> string for where to commit the
 build contents
@@ -160,7 +172,7 @@ default, meaning no release branch.
 =item * message - L<String::Formatter> string for what commit message
 to use when committing the results of the build.
 
-This option supports three formatting codes:
+This option supports five formatting codes:
 
 =over 4
 
@@ -170,9 +182,17 @@ This option supports three formatting codes:
 
 =item * C<%h> - Abbreviated commit hash
 
+=item * C<%v> - The release version number
+
+=item * C<%t> - The string "-TRIAL" if this is a trial release
+
 =back
 
+=item * release_message - L<String::Formatter> string for what
+commit message to use when committing the results of the release.
+Defaults to the same as C<message>.
 
 =back
 
 =cut
+
