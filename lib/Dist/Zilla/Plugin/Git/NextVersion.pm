@@ -34,12 +34,12 @@ sub provide_version {
   my $regexp = $self->version_regexp;
 
   my @tags = $git->tag;
+  @tags = map { /$regexp/ ? $1 : () } @tags;
   return $self->first_version unless @tags;
 
   # find highest version from tags
   my ($last_ver) =  sort { version->parse($b) <=> version->parse($a) }
-  grep { eval { version->parse($_) }  }
-  map  { /$regexp/ ? $1 : ()          } @tags;
+  grep { eval { version->parse($_) }  } @tags;
 
   $self->log_fatal("Could not determine last version from tags")
   unless defined $last_ver;

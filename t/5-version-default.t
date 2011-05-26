@@ -7,7 +7,7 @@ use Path::Class;
 use File::pushd qw/pushd tempd/;
 use File::Copy::Recursive qw/dircopy/;
 
-use Test::More 0.88 tests => 6;
+use Test::More 0.88 tests => 8;
 
 # we chdir around so make @INC absolute
 BEGIN { 
@@ -50,6 +50,14 @@ is( $version, "0.001", "default is 0.001" );
     local $ENV{V} = "1.23";
     $zilla = _new_zilla;
     is( $zilla->version, "1.23", "initialized with \$ENV{V}" );
+}
+
+# add a tag that doesn't match the regex
+$git->tag("revert-me-later");
+ok( (grep { /revert-me-later/ } $git->tag), "wrote revert-me-later tag" );
+{
+    $zilla = _new_zilla;
+    is( $zilla->version, "0.001", "default is 0.001" );
 }
 
 # tag it
