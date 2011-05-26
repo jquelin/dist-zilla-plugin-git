@@ -1,7 +1,5 @@
 Revision history for Dist::Zilla::Plugin::Git
 
-{{$NEXT}}
-
 1.111460  2011-05-26 14:37:08 Europe/Paris
  - fix rt#68474 - Git::NextVersion assumes all tags are version-related (rob@hoelz.ro)
 

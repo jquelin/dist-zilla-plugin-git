@@ -1,7 +1,18 @@
+#
+# This file is part of Dist-Zilla-Plugin-Git
+#
+# This software is copyright (c) 2009 by Jerome Quelin.
+#
+# This is free software; you can redistribute it and/or modify it under
+# the same terms as the Perl 5 programming language system itself.
+#
 use strict;
 use warnings;
 
 package Dist::Zilla::Plugin::Git::NextVersion;
+BEGIN {
+  $Dist::Zilla::Plugin::Git::NextVersion::VERSION = '1.111460';
+}
 # ABSTRACT: provide a version number by bumping the last git release tag
 
 use Dist::Zilla 4 ();
@@ -54,10 +65,17 @@ __PACKAGE__->meta->make_immutable;
 no Moose;
 1;
 
-__END__
 
-=for Pod::Coverage
-    provide_version
+
+=pod
+
+=head1 NAME
+
+Dist::Zilla::Plugin::Git::NextVersion - provide a version number by bumping the last git release tag
+
+=head1 VERSION
+
+version 1.111460
 
 =head1 SYNOPSIS
 
@@ -97,5 +115,22 @@ the last tag is 0.005 and you want to jump to 1.000 you can set V = 1.000.
 
   $ V=1.000 dzil release
 
+=for Pod::Coverage provide_version
+
+=head1 AUTHOR
+
+Jerome Quelin
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2009 by Jerome Quelin.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
 =cut
+
+
+__END__
+
 

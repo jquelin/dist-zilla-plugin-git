@@ -1,14 +1,34 @@
+#
+# This file is part of Dist-Zilla-Plugin-Git
+#
+# This software is copyright (c) 2009 by Jerome Quelin.
+#
+# This is free software; you can redistribute it and/or modify it under
+# the same terms as the Perl 5 programming language system itself.
+#
 use 5.008;
 use strict;
 use warnings;
 
 package Dist::Zilla::Plugin::Git;
+BEGIN {
+  $Dist::Zilla::Plugin::Git::VERSION = '1.111460';
+}
 # ABSTRACT: update your git repository after release
 
 use Dist::Zilla 2.100880;    # Need mvp_multivalue_args in Plugin role
 1;
-__END__
 
+
+=pod
+
+=head1 NAME
+
+Dist::Zilla::Plugin::Git - update your git repository after release
+
+=head1 VERSION
+
+version 1.111460
 
 =head1 DESCRIPTION
 
@@ -36,8 +56,6 @@ following plugins are provided in this distribution:
 
 A L<Dist::Zilla::PluginBundle::Git> bundle is also provided for your
 convenience, check its documentation to see which plugins it will load.
-
-
 
 =head1 SEE ALSO
 
@@ -70,4 +88,21 @@ L<http://annocpan.org/dist/Dist-Zilla-Plugin-Git>
 L<http://cpanratings.perl.org/d/Dist-Zilla-Plugin-Git>
 
 =back
+
+=head1 AUTHOR
+
+Jerome Quelin
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2009 by Jerome Quelin.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut
+
+
+__END__
+
 

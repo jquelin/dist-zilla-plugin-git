@@ -1,8 +1,19 @@
+#
+# This file is part of Dist-Zilla-Plugin-Git
+#
+# This software is copyright (c) 2009 by Jerome Quelin.
+#
+# This is free software; you can redistribute it and/or modify it under
+# the same terms as the Perl 5 programming language system itself.
+#
 use 5.008;
 use strict;
 use warnings;
 
 package Dist::Zilla::Plugin::Git::Commit;
+BEGIN {
+  $Dist::Zilla::Plugin::Git::Commit::VERSION = '1.111460';
+}
 # ABSTRACT: commit dirty files
 
 use File::Temp           qw{ tempfile };
@@ -80,12 +91,6 @@ sub after_release {
 }
 
 
-=method get_commit_message
-
-This method returns the commit message.  The default implementation
-reads the Changes file to get the list of changes in the just-released version.
-
-=cut
 
 sub get_commit_message {
     my $self = shift;
@@ -114,11 +119,17 @@ sub _get_changes {
 
 
 1;
-__END__
 
-=for Pod::Coverage
-    after_release mvp_multivalue_args
 
+=pod
+
+=head1 NAME
+
+Dist::Zilla::Plugin::Git::Commit - commit dirty files
+
+=head1 VERSION
+
+version 1.111460
 
 =head1 SYNOPSIS
 
@@ -127,14 +138,12 @@ In your F<dist.ini>:
     [Git::Commit]
     changelog = Changes      ; this is the default
 
-
 =head1 DESCRIPTION
 
 Once the release is done, this plugin will record this fact in git by
 committing changelog and F<dist.ini>. The commit message will be taken
 from the changelog for this release.  It will include lines between
 the current version and timestamp and the next non-indented line.
-
 
 The plugin accepts the following options:
 
@@ -193,3 +202,29 @@ release, or the empty string if not.  A bare C<%t> means C<%{-TRIAL}t>.
 the distribution version
 
 =back
+
+=head1 METHODS
+
+=head2 get_commit_message
+
+This method returns the commit message.  The default implementation
+reads the Changes file to get the list of changes in the just-released version.
+
+=for Pod::Coverage after_release mvp_multivalue_args
+
+=head1 AUTHOR
+
+Jerome Quelin
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2009 by Jerome Quelin.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut
+
+
+__END__
+

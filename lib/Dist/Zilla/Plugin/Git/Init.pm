@@ -1,8 +1,19 @@
+#
+# This file is part of Dist-Zilla-Plugin-Git
+#
+# This software is copyright (c) 2009 by Jerome Quelin.
+#
+# This is free software; you can redistribute it and/or modify it under
+# the same terms as the Perl 5 programming language system itself.
+#
 use 5.010;
 use strict;
 use warnings;
 
 package Dist::Zilla::Plugin::Git::Init;
+BEGIN {
+  $Dist::Zilla::Plugin::Git::Init::VERSION = '1.111460';
+}
 # ABSTRACT: initialize git repository on dzil new
 
 our %transform = (
@@ -67,11 +78,17 @@ sub after_mint {
 }
 
 1;
-__END__
 
-=for Pod::Coverage
-    after_mint mvp_aliases mvp_multivalue_args
 
+=pod
+
+=head1 NAME
+
+Dist::Zilla::Plugin::Git::Init - initialize git repository on dzil new
+
+=head1 VERSION
+
+version 1.111460
 
 =head1 SYNOPSIS
 
@@ -86,7 +103,6 @@ In your F<profile.ini>:
 
 This plugin initializes a git repository when a new distribution is
 created with C<dzil new>.
-
 
 =head2 Plugin options
 
@@ -123,3 +139,22 @@ The distribution name.  You can also use C<%{lc}N> or C<%{uc}N> to get
 the name in lower case or upper case, respectively.
 
 =back
+
+=for Pod::Coverage after_mint mvp_aliases mvp_multivalue_args
+
+=head1 AUTHOR
+
+Jerome Quelin
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2009 by Jerome Quelin.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut
+
+
+__END__
+

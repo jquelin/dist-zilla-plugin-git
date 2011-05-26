@@ -1,8 +1,19 @@
+#
+# This file is part of Dist-Zilla-Plugin-Git
+#
+# This software is copyright (c) 2009 by Jerome Quelin.
+#
+# This is free software; you can redistribute it and/or modify it under
+# the same terms as the Perl 5 programming language system itself.
+#
 use 5.008;
 use strict;
 use warnings;
 
 package Dist::Zilla::Plugin::Git::CommitBuild;
+BEGIN {
+  $Dist::Zilla::Plugin::Git::CommitBuild::VERSION = '1.111460';
+}
 # ABSTRACT: checkin build results on separate branch
 
 use Git::Wrapper;
@@ -127,11 +138,17 @@ sub _commit_build {
 }
 
 1;
-__END__
 
-=for Pod::Coverage
-    after_build
-    after_release
+
+=pod
+
+=head1 NAME
+
+Dist::Zilla::Plugin::Git::CommitBuild - checkin build results on separate branch
+
+=head1 VERSION
+
+version 1.111460
 
 =head1 SYNOPSIS
 
@@ -194,5 +211,23 @@ Defaults to the same as C<message>.
 
 =back
 
+=for Pod::Coverage after_build
+    after_release
+
+=head1 AUTHOR
+
+Jerome Quelin
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2009 by Jerome Quelin.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
 =cut
+
+
+__END__
+
 

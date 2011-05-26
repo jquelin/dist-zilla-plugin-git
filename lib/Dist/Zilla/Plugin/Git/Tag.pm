@@ -1,8 +1,19 @@
+#
+# This file is part of Dist-Zilla-Plugin-Git
+#
+# This software is copyright (c) 2009 by Jerome Quelin.
+#
+# This is free software; you can redistribute it and/or modify it under
+# the same terms as the Perl 5 programming language system itself.
+#
 use 5.008;
 use strict;
 use warnings;
 
 package Dist::Zilla::Plugin::Git::Tag;
+BEGIN {
+  $Dist::Zilla::Plugin::Git::Tag::VERSION = '1.111460';
+}
 # ABSTRACT: tag the new version
 
 use Git::Wrapper;
@@ -34,14 +45,6 @@ has tag_message => ( ro, isa=>Str, default => 'v%v' );
 has time_zone   => ( ro, isa=>Str, default => 'local' );
 has branch => ( ro, isa=>Str, predicate=>'has_branch' );
 
-=method tag
-
-    my $tag = $plugin->tag;
-
-Return the tag that will be / has been applied by the plugin. That is,
-returns C<tag_format> as completed with the real values.
-
-=cut
 
 has tag => ( ro, isa => Str, lazy_build => 1, );
 
@@ -81,12 +84,17 @@ sub after_release {
 }
 
 1;
-__END__
 
-=for Pod::Coverage
-    after_release
-    before_release
 
+=pod
+
+=head1 NAME
+
+Dist::Zilla::Plugin::Git::Tag - tag the new version
+
+=head1 VERSION
+
+version 1.111460
 
 =head1 SYNOPSIS
 
@@ -108,7 +116,6 @@ doesn't already exist.  (You would have to manually delete the
 existing tag before you could release the same version again, but that
 is almost never a good idea.)
 
-
 =head2 Plugin options
 
 The plugin accepts the following options:
@@ -128,7 +135,6 @@ time zone name accepted by DateTime.  Defaults to C<local>.
 =item * branch - which branch to tag. Defaults to current branch.
 
 =back
-
 
 =head2 Formatting options
 
@@ -160,3 +166,32 @@ release, or the empty string if not.  A bare C<%t> means C<%{-TRIAL}t>.
 The distribution version
 
 =back
+
+=head1 METHODS
+
+=head2 tag
+
+    my $tag = $plugin->tag;
+
+Return the tag that will be / has been applied by the plugin. That is,
+returns C<tag_format> as completed with the real values.
+
+=for Pod::Coverage after_release
+    before_release
+
+=head1 AUTHOR
+
+Jerome Quelin
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2009 by Jerome Quelin.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut
+
+
+__END__
+
