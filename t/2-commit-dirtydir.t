@@ -7,8 +7,12 @@ use Dist::Zilla  1.093250;
 use Dist::Zilla::Tester;
 use Git::Wrapper;
 use Path::Class;
+use File::Temp qw/tempdir/;
 use lib 't/lib';
 use Test::More   tests => 3;
+
+# Mock HOME to avoid ~/.gitexcludes from causing problems
+$ENV{HOME} = tempdir( CLEANUP => 1 );
 
 # build fake repository
 my $zilla = Dist::Zilla::Tester->from_config({
