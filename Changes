@@ -1,5 +1,8 @@
 Revision history for Dist::Zilla::Plugin::Git
 
+1.111590  2011-06-08 09:43:35 Europe/Paris
+ - mocks HOME to avoid test failures (david golden)
+
 1.111460  2011-05-26 14:37:08 Europe/Paris
  - fix rt#68474 - Git::NextVersion assumes all tags are version-related (rob@hoelz.ro)
 
