@@ -55,7 +55,7 @@ for my $c ( $clone1, $clone2 ) {
   # check if everything was pushed
   $git = Git::Wrapper->new( $c );
   my ($log) = $git->log( 'HEAD' );
-  is( $log->message, "v1.23\n\n- foo\n- bar\n- baz\n", "commit pushed to $c" );
+  like( $log->message, qr/v1.23\n[^a-z]*foo[^a-z]*bar[^a-z]*baz/, "commit pushed to $c" );
 
   # check if tag has been correctly created
   my @tags = $git->tag;

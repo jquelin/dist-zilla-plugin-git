@@ -51,7 +51,7 @@ $zilla->release;
 # check if everything was pushed
 $git = Git::Wrapper->new( $clone );
 my ($log) = $git->log( 'HEAD' );
-is( $log->message, "v1.23\n\n- foo\n- bar\n- baz\n", 'commit pushed' );
+like( $log->message, qr/v1.23\n[^a-z]*foo[^a-z]*bar[^a-z]*baz/, 'commit pushed' );
 
 # check if tag has been correctly created
 my @tags = $git->tag;

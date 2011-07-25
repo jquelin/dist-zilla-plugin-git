@@ -30,17 +30,7 @@ $zilla->release;
 
 # check if dist.ini and changelog have been committed
 my ($log) = $git->log( 'HEAD' );
-my $expected = << "HERE";
-v1.23
-
-- foo
-
-- bar
-
-- baz
-HERE
-
-is( $log->message, $expected, 'commit message taken from changelog' );
+like( $log->message, qr/v1.23\n[^a-z]*foo[^a-z]*bar[^a-z]*baz/, 'commit message taken from changelog' );
 
 sub append_to_file {
     my ($file, @lines) = @_;
