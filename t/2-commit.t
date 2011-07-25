@@ -13,9 +13,13 @@ use warnings;
 
 use Dist::Zilla  1.093250;
 use Dist::Zilla::Tester;
+use File::Temp qw{ tempdir };
 use Git::Wrapper;
 use Path::Class;
 use Test::More   tests => 1;
+
+# Mock HOME to avoid ~/.gitexcludes from causing problems
+$ENV{HOME} = tempdir( CLEANUP => 1 );
 
 # build fake repository
 my $zilla = Dist::Zilla::Tester->from_config({
@@ -37,7 +41,7 @@ $zilla->release;
 
 # check if dist.ini and changelog have been committed
 my ($log) = $git->log( 'HEAD' );
-is( $log->message, "v1.23\n\n- foo\n- bar\n- baz\n", 'commit message taken from changelog' );
+like( $log->message, qr/v1.23\n[^a-z]*foo[^a-z]*bar[^a-z]*baz/, 'commit message taken from changelog' );
 
 sub append_to_file {
     my ($file, @lines) = @_;

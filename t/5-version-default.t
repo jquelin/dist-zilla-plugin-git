@@ -4,6 +4,7 @@ use warnings;
 use Dist::Zilla::Tester;
 use Git::Wrapper;
 use Path::Class;
+use File::Temp  qw{ tempdir };
 use File::pushd qw/pushd tempd/;
 use File::Copy::Recursive qw/dircopy/;
 
@@ -13,6 +14,9 @@ use Test::More 0.88 tests => 8;
 BEGIN { 
   @INC = map {; ref($_) ? $_ : dir($_)->absolute->stringify } @INC;
 }
+
+# Mock HOME to avoid ~/.gitexcludes from causing problems
+$ENV{HOME} = tempdir( CLEANUP => 1 );
 
 # save absolute corpus directory path
 my $corpus_dir = dir('corpus/version-default')->absolute;

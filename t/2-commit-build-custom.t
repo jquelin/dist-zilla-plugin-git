@@ -13,10 +13,14 @@ use warnings;
 
 use Dist::Zilla  1.093250;
 use Dist::Zilla::Tester;
+use File::Temp qw{ tempdir };
 use Git::Wrapper;
 use Path::Class;
 use Test::More   tests => 5;
 use Cwd qw(cwd);
+
+# Mock HOME to avoid ~/.gitexcludes from causing problems
+$ENV{HOME} = tempdir( CLEANUP => 1 );
 
 my $cwd = cwd();
 my $zilla = Dist::Zilla::Tester->from_config({

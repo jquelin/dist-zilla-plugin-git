@@ -20,6 +20,9 @@ use Path::Class;
 use Test::More;
 use version;
 
+# Mock HOME to avoid ~/.gitexcludes from causing problems
+$ENV{HOME} = tempdir( CLEANUP => 1 );
+
 # build fake repository
 my $zilla = Dist::Zilla::Tester->from_config({
   dist_root => dir(qw(t push)),
@@ -59,7 +62,7 @@ $zilla->release;
 # check if everything was pushed
 $git = Git::Wrapper->new( $clone );
 my ($log) = $git->log( 'HEAD' );
-is( $log->message, "v1.23\n\n- foo\n- bar\n- baz\n", 'commit pushed' );
+like( $log->message, qr/v1.23\n[^a-z]*foo[^a-z]*bar[^a-z]*baz/, 'commit pushed' );
 
 # check if tag has been correctly created
 my @tags = $git->tag;
