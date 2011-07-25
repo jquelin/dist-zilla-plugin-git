@@ -1,6 +1,7 @@
 Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
+ - fix rt#66705 - localization of HOME in tests
  - fix rt#69616 & rt#69701 - make dzp-git work with git::wrapper 0.015
 
 1.111590  2011-06-08 09:43:35 Europe/Paris

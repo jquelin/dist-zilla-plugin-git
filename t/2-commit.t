@@ -5,9 +5,13 @@ use warnings;
 
 use Dist::Zilla  1.093250;
 use Dist::Zilla::Tester;
+use File::Temp qw{ tempdir };
 use Git::Wrapper;
 use Path::Class;
 use Test::More   tests => 1;
+
+# Mock HOME to avoid ~/.gitexcludes from causing problems
+$ENV{HOME} = tempdir( CLEANUP => 1 );
 
 # build fake repository
 my $zilla = Dist::Zilla::Tester->from_config({

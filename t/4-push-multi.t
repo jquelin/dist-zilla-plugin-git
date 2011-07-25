@@ -12,6 +12,9 @@ use Path::Class;
 use Test::More;
 use version;
 
+# Mock HOME to avoid ~/.gitexcludes from causing problems
+$ENV{HOME} = tempdir( CLEANUP => 1 );
+
 # build fake repository
 my $zilla = Dist::Zilla::Tester->from_config({
   dist_root => dir(qw(t push-multi)),
