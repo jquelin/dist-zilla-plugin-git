@@ -1,6 +1,7 @@
 Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
+ - fix gh#13 - supplying default git config
 
 1.112060  2011-07-25 10:25:29 Europe/Paris
  - fix rt#66705 - localization of HOME in tests
