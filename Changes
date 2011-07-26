@@ -1,6 +1,8 @@
 Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
+
+1.112070  2011-07-26 08:46:42 Europe/Paris
  - fix gh#13 - supplying default git config
 
 1.112060  2011-07-25 10:25:29 Europe/Paris
