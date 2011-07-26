@@ -30,6 +30,8 @@ my $zilla = Dist::Zilla::Tester->from_config({
 chdir $zilla->tempdir->subdir('source');
 system "git init";
 my $git   = Git::Wrapper->new('.');
+$git->config( 'user.name'  => 'dzp-git test' );
+$git->config( 'user.email' => 'dzp-git@test' );
 
 # create initial .gitignore
 # we cannot ship it in the dist, since PruneCruft plugin would trim it

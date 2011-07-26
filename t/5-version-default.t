@@ -42,6 +42,8 @@ my $wd = pushd( $zilla->tempdir->subdir('source')->stringify );
 system "git init";
 my $git   = Git::Wrapper->new('.');
 $git->add(".");
+$git->config( 'user.name'  => 'dzp-git test' );
+$git->config( 'user.email' => 'dzp-git@test' );
 $git->commit({ message => 'import' });
 
 # with no tags and no initialization, should get default
