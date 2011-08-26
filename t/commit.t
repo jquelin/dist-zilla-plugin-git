@@ -21,14 +21,13 @@ use Test::More   tests => 1;
 # Mock HOME to avoid ~/.gitexcludes from causing problems
 $ENV{HOME} = tempdir( CLEANUP => 1 );
 
+# build fake repository
 my $zilla = Dist::Zilla::Tester->from_config({
-  dist_root => dir(qw(t commit-ws)),
+  dist_root => dir('corpus/commit')->absolute,
 });
 
-# build fake repository
 chdir $zilla->tempdir->subdir('source');
 system "git init";
-
 my $git = Git::Wrapper->new('.');
 $git->config( 'user.name'  => 'dzp-git test' );
 $git->config( 'user.email' => 'dzp-git@test' );

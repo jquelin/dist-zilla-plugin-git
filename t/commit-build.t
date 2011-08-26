@@ -24,7 +24,7 @@ $ENV{HOME} = tempdir( CLEANUP => 1 );
 
 my $cwd = cwd();
 my $zilla = Dist::Zilla::Tester->from_config({
-  dist_root => dir($cwd, qw(t commit-build)),
+  dist_root => dir('corpus/commit-build')->absolute,
 });
 
 # build fake repository
@@ -44,7 +44,7 @@ is( $git->log('build/master'), 2, 'one commit on the build/master branch') or di
 chdir $cwd;
 
 my $zilla2 = Dist::Zilla::Tester->from_config({
-  dist_root => dir($cwd, qw(t commit-build)),
+  dist_root => dir('corpus/commit-build')->absolute,
 });
 
 # build fake repository
@@ -65,7 +65,7 @@ ok( $git2->rev_parse('-q', '--verify', 'refs/heads/build/topic/1'), 'source repo
 
 chdir $cwd;
 my $zilla3 = Dist::Zilla::Tester->from_config({
-  dist_root => dir($cwd, qw(t commit-build)),
+  dist_root => dir('corpus/commit-build')->absolute,
 });
 
 # build fake repository

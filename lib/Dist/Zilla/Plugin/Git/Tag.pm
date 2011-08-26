@@ -11,8 +11,8 @@ use strict;
 use warnings;
 
 package Dist::Zilla::Plugin::Git::Tag;
-BEGIN {
-  $Dist::Zilla::Plugin::Git::Tag::VERSION = '1.112070';
+{
+  $Dist::Zilla::Plugin::Git::Tag::VERSION = '1.112380';
 }
 # ABSTRACT: tag the new version
 
@@ -44,6 +44,7 @@ has tag_format  => ( ro, isa=>Str, default => 'v%v' );
 has tag_message => ( ro, isa=>Str, default => 'v%v' );
 has time_zone   => ( ro, isa=>Str, default => 'local' );
 has branch => ( ro, isa=>Str, predicate=>'has_branch' );
+has signed => ( ro, isa=>'Bool', default=>0 );
 
 
 has tag => ( ro, isa => Str, lazy_build => 1, );
@@ -71,10 +72,12 @@ sub after_release {
     my $self = shift;
     my $git  = Git::Wrapper->new('.');
 
-    # Make an annotated tag if tag_message, lightweight tag otherwise:
-    my @opts = $self->tag_message
-        ? ( '-m' => _format_tag($self->tag_message, $self) )
-        : ();
+    my @opts;
+    push @opts, ( '-m' => _format_tag($self->tag_message, $self) )
+        if $self->tag_message; # Make an annotated tag if tag_message, lightweight tag otherwise:
+    push @opts, '-s'
+        if $self->signed; # make a GPG-signed tag
+
     my @branch = $self->has_branch ? ( $self->branch ) : ();
 
     # create a tag with the new version
@@ -94,7 +97,7 @@ Dist::Zilla::Plugin::Git::Tag - tag the new version
 
 =head1 VERSION
 
-version 1.112070
+version 1.112380
 
 =head1 SYNOPSIS
 
@@ -125,7 +128,7 @@ The plugin accepts the following options:
 =item * tag_format - format of the tag to apply. Defaults to C<v%v>, see
 C<Formatting options> below.
 
-=item * tag_message - format of the commit message. Defaults to C<v%v>,
+=item * tag_message - format of the tag annotation. Defaults to C<v%v>,
 see C<Formatting options> below. Use C<tag_message = > to create a
 lightweight tag.
 
@@ -133,6 +136,12 @@ lightweight tag.
 time zone name accepted by DateTime.  Defaults to C<local>.
 
 =item * branch - which branch to tag. Defaults to current branch.
+
+=item * signed - whether to make a GPG-signed tag, using the default
+e-mail address' key. Consider setting C<user.signingkey> if C<gpg>
+can't find the correct key:
+
+    $ git config user.signingkey 450F89EC
 
 =back
 

@@ -24,7 +24,7 @@ $ENV{HOME} = tempdir( CLEANUP => 1 );
 
 # build fake repository
 my $zilla = Dist::Zilla::Tester->from_config({
-  dist_root => dir(qw(t commit-dirtydir)),
+  dist_root => dir('corpus/commit-dirtydir')->absolute,
 });
 
 chdir $zilla->tempdir->subdir('source');

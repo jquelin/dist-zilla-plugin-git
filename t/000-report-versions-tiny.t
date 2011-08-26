@@ -63,8 +63,10 @@ eval { $v .= pmver('Dist::Zilla::Tester','any version') };
 eval { $v .= pmver('File::Copy','any version') };
 eval { $v .= pmver('File::Copy::Recursive','any version') };
 eval { $v .= pmver('File::Find','any version') };
+eval { $v .= pmver('File::Path','any version') };
 eval { $v .= pmver('File::Spec::Functions','any version') };
 eval { $v .= pmver('File::Temp','any version') };
+eval { $v .= pmver('File::Which','any version') };
 eval { $v .= pmver('File::chdir','any version') };
 eval { $v .= pmver('File::pushd','any version') };
 eval { $v .= pmver('Git::Wrapper','any version') };
@@ -82,7 +84,9 @@ eval { $v .= pmver('Test::Exception','any version') };
 eval { $v .= pmver('Test::More','0.88') };
 eval { $v .= pmver('Version::Next','any version') };
 eval { $v .= pmver('namespace::autoclean','0.09') };
+eval { $v .= pmver('strict','any version') };
 eval { $v .= pmver('version','0.80') };
+eval { $v .= pmver('warnings','any version') };
 
 
 

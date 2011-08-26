@@ -16,34 +16,36 @@ use Dist::Zilla::Tester;
 use File::Temp qw{ tempdir };
 use Git::Wrapper;
 use Path::Class;
-use Test::More   tests => 5;
-use Cwd qw(cwd);
+use Test::More   tests => 4;
 
 # Mock HOME to avoid ~/.gitexcludes from causing problems
 $ENV{HOME} = tempdir( CLEANUP => 1 );
 
-my $cwd = cwd();
+# build fake repository
 my $zilla = Dist::Zilla::Tester->from_config({
-  dist_root => dir($cwd, qw(t commit-build-custom)),
+  dist_root => dir('corpus/tag')->absolute,
 });
 
-# build fake repository
 chdir $zilla->tempdir->subdir('source');
-system "git init -q";
-
+system "git init";
 my $git = Git::Wrapper->new('.');
+
 $git->config( 'user.name'  => 'dzp-git test' );
 $git->config( 'user.email' => 'dzp-git@test' );
 $git->add( qw{ dist.ini Changes } );
 $git->commit( { message => 'initial commit' } );
-$git->branch(-m => 'dev');
 
-$zilla->build;
-ok( eval { $git->rev_parse('-q', '--verify', 'refs/heads/build-dev') }, 'source repo has the "build-dev" branch') or diag explain $@, $git->branch;
-is( $git->log('build-dev'), 2, 'one commit on the build-dev branch') or diag $git->branch;
-
+# do the release
 $zilla->release;
-ok( eval { $git->rev_parse('-q', '--verify', 'refs/heads/release') }, 'source repo has the "release" branch') or diag explain $@, $git->branch;
-my @logs = $git->log('release');
-is( scalar(@logs), 2, 'one commit on the release branch') or diag $git->branch;
-like( $logs[0]->message, qr/^Release of 1\.23\b/, 'correct release commit log message generated');
+
+# check if tag has been correctly created
+my @tags = $git->tag;
+is( scalar(@tags), 1, 'one tag created' );
+is( $tags[0], 'v1.23', 'new tag created after new version' );
+is( $tags[0], $zilla->plugin_named('Git::Tag')->tag(), 'new tag matches the tag the plugin claims is the tag.');
+
+# attempting to release again should fail
+eval { $zilla->release };
+
+like($@, qr/tag v1\.23 already exists/, 'prohibit duplicate tag');
+
