@@ -121,7 +121,7 @@ The plugin accepts the following options:
 =item * tag_format - format of the tag to apply. Defaults to C<v%v>, see
 C<Formatting options> below.
 
-=item * tag_message - format of the commit message. Defaults to C<v%v>,
+=item * tag_message - format of the tag annotation. Defaults to C<v%v>,
 see C<Formatting options> below. Use C<tag_message = > to create a
 lightweight tag.
 
