@@ -16,7 +16,7 @@ $ENV{HOME} = tempdir( CLEANUP => 1 );
 
 my $cwd = cwd();
 my $zilla = Dist::Zilla::Tester->from_config({
-  dist_root => dir($cwd, qw(t commit-build-custom)),
+  dist_root => dir('corpus/commit-build-custom')->absolute,
 });
 
 # build fake repository

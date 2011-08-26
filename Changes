@@ -1,6 +1,8 @@
 Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
+ - moved all test corpus to corpus/
+ - renamed tests to remove leading number
 
 1.112070  2011-07-26 08:46:42 Europe/Paris
  - fix gh#13 - supplying default git config

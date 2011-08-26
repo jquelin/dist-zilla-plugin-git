@@ -16,12 +16,12 @@ use Test::More   tests => 7;
 # Mock HOME to avoid ~/.gitexcludes from causing problems
 $ENV{HOME} = tempdir( CLEANUP => 1 );
 make_path("$ENV{HOME}/.gnupg");
-cp 'dzp-git.pub', "$ENV{HOME}/.gnupg/pubring.gpg";
-cp 'dzp-git.sec', "$ENV{HOME}/.gnupg/secring.gpg";
+cp 'corpus/dzp-git.pub', "$ENV{HOME}/.gnupg/pubring.gpg";
+cp 'corpus/dzp-git.sec', "$ENV{HOME}/.gnupg/secring.gpg";
 
 # build fake repository
 my $zilla = Dist::Zilla::Tester->from_config({
-  dist_root => dir(qw(t tag-signed)),
+  dist_root => dir('corpus/tag-signed')->absolute,
 });
 
 chdir $zilla->tempdir->subdir('source');
