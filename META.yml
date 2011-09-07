@@ -27,34 +27,34 @@ name: Dist-Zilla-Plugin-Git
 provides:
   Dist::Zilla::Plugin::Git:
     file: lib/Dist/Zilla/Plugin/Git.pm
-    version: 1.112440
+    version: 1.112500
   Dist::Zilla::Plugin::Git::Check:
     file: lib/Dist/Zilla/Plugin/Git/Check.pm
-    version: 1.112440
+    version: 1.112500
   Dist::Zilla::Plugin::Git::Commit:
     file: lib/Dist/Zilla/Plugin/Git/Commit.pm
-    version: 1.112440
+    version: 1.112500
   Dist::Zilla::Plugin::Git::CommitBuild:
     file: lib/Dist/Zilla/Plugin/Git/CommitBuild.pm
-    version: 1.112440
+    version: 1.112500
   Dist::Zilla::Plugin::Git::Init:
     file: lib/Dist/Zilla/Plugin/Git/Init.pm
-    version: 1.112440
+    version: 1.112500
   Dist::Zilla::Plugin::Git::NextVersion:
     file: lib/Dist/Zilla/Plugin/Git/NextVersion.pm
-    version: 1.112440
+    version: 1.112500
   Dist::Zilla::Plugin::Git::Push:
     file: lib/Dist/Zilla/Plugin/Git/Push.pm
-    version: 1.112440
+    version: 1.112500
   Dist::Zilla::Plugin::Git::Tag:
     file: lib/Dist/Zilla/Plugin/Git/Tag.pm
-    version: 1.112440
+    version: 1.112500
   Dist::Zilla::PluginBundle::Git:
     file: lib/Dist/Zilla/PluginBundle/Git.pm
-    version: 1.112440
+    version: 1.112500
   Dist::Zilla::Role::Git::DirtyFiles:
     file: lib/Dist/Zilla/Role/Git/DirtyFiles.pm
-    version: 1.112440
+    version: 1.112500
 requires:
   Class::MOP: 0
   Cwd: 0
@@ -89,7 +89,7 @@ resources:
   homepage: http://search.cpan.org/dist/Dist-Zilla-Plugin-Git/
   repository: git://github.com/jquelin/dist-zilla-plugin-git.git
   x_MailingList: http://www.listbox.com/subscribe/?list_id=139292
-version: 1.112440
+version: 1.112500
 x_Dist_Zilla:
   plugins:
     -
