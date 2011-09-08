@@ -65,9 +65,3 @@ t/tag-signed.t
 t/tag.t
 t/version-default.t
 t/version-regexp.t
-tmp/Hw956Qlt2j/source/Changes
-tmp/Hw956Qlt2j/source/Foo-1.23.tar.gz
-tmp/Hw956Qlt2j/source/dist.ini
-tmp/X1mToEJbmF/source/Changes
-tmp/X1mToEJbmF/source/Foo-1.23.tar.gz
-tmp/X1mToEJbmF/source/dist.ini
