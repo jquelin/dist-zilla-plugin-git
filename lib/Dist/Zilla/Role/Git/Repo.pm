@@ -1,4 +1,4 @@
-package Dist::Zilla::Plugin::Git::Role::Repo;
+package Dist::Zilla::Role::Git::Repo;
 
 use Moose::Role;
 

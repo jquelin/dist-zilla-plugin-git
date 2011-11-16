@@ -11,7 +11,7 @@ use MooseX::Has::Sugar;
 use MooseX::Types::Moose qw{ ArrayRef Str };
 
 with 'Dist::Zilla::Role::AfterRelease';
-with 'Dist::Zilla::Plugin::Git::Role::Repo';
+with 'Dist::Zilla::Role::Git::Repo';
 
 sub mvp_multivalue_args { qw(push_to) }
 

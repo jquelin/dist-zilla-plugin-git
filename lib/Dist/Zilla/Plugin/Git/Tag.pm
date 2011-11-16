@@ -25,7 +25,7 @@ use String::Formatter method_stringf => {
 
 with 'Dist::Zilla::Role::BeforeRelease';
 with 'Dist::Zilla::Role::AfterRelease';
-with 'Dist::Zilla::Plugin::Git::Role::Repo';
+with 'Dist::Zilla::Role::Git::Repo';
 
 
 # -- attributes

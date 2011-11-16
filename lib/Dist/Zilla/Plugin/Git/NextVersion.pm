@@ -13,7 +13,7 @@ use Moose;
 use namespace::autoclean 0.09;
 
 with 'Dist::Zilla::Role::VersionProvider';
-with 'Dist::Zilla::Plugin::Git::Role::Repo';
+with 'Dist::Zilla::Role::Git::Repo';
 
 # -- attributes
 

@@ -10,7 +10,7 @@ use Moose;
 
 with 'Dist::Zilla::Role::BeforeRelease';
 with 'Dist::Zilla::Role::Git::DirtyFiles';
-with 'Dist::Zilla::Plugin::Git::Role::Repo';
+with 'Dist::Zilla::Role::Git::Repo';
 
 
 # -- public methods

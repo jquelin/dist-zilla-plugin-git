@@ -34,7 +34,7 @@ use String::Formatter (
 );
 
 with 'Dist::Zilla::Role::AfterBuild', 'Dist::Zilla::Role::AfterRelease';
-with 'Dist::Zilla::Plugin::Git::Role::Repo';
+with 'Dist::Zilla::Role::Git::Repo';
 
 # -- attributes
 
