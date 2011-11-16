@@ -13,6 +13,7 @@ use Moose;
 use namespace::autoclean 0.09;
 
 with 'Dist::Zilla::Role::VersionProvider';
+with 'Dist::Zilla::Plugin::Git::Role::Repo';
 
 # -- attributes
 
@@ -30,7 +31,7 @@ sub provide_version {
 
   local $/ = "\n"; # Force record separator to be single newline
 
-  my $git  = Git::Wrapper->new('.');
+  my $git  = Git::Wrapper->new( $self->repo_dir );
   my $regexp = $self->version_regexp;
 
   my @tags = $git->tag;

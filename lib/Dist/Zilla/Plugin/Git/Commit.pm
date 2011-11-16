@@ -11,6 +11,7 @@ use Moose;
 use MooseX::Has::Sugar;
 use MooseX::Types::Moose qw{ Str };
 use Path::Class::Dir ();
+use Cwd;
 
 use String::Formatter method_stringf => {
   -as => '_format_string',
@@ -29,7 +30,7 @@ use String::Formatter method_stringf => {
 
 with 'Dist::Zilla::Role::AfterRelease';
 with 'Dist::Zilla::Role::Git::DirtyFiles';
-
+with 'Dist::Zilla::Plugin::Git::Role::Repo';
 
 # -- attributes
 
@@ -43,7 +44,8 @@ sub mvp_multivalue_args { qw( add_files_in ) }
 
 sub after_release {
     my $self = shift;
-    my $git  = Git::Wrapper->new('.');
+
+    my $git  = Git::Wrapper->new( $self->repo_root );
     my @output;
 
     # check if there are dirty files that need to be committed.
@@ -69,7 +71,7 @@ sub after_release {
     return unless @output;    
 
     # write commit message in a temp file
-    my ($fh, $filename) = tempfile( 'DZP-git.XXXX', UNLINK => 1 );
+    my ($fh, $filename) = tempfile( getcwd . '/DZP-git.XXXX', UNLINK => 0 );
     print $fh $self->get_commit_message;
     close $fh;
 

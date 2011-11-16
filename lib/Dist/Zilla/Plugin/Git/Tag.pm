@@ -25,6 +25,7 @@ use String::Formatter method_stringf => {
 
 with 'Dist::Zilla::Role::BeforeRelease';
 with 'Dist::Zilla::Role::AfterRelease';
+with 'Dist::Zilla::Plugin::Git::Role::Repo';
 
 
 # -- attributes
@@ -57,7 +58,11 @@ sub _build_tag
 
 sub before_release {
     my $self = shift;
-    my $git  = Git::Wrapper->new('.');
+    use Cwd;
+    warn "tag before release " . $self->repo_root . "\n";
+    warn "cwd = " . getcwd . "\n";
+
+    my $git  = Git::Wrapper->new( $self->repo_root );
 
     # Make sure a tag with the new version doesn't exist yet:
     my $tag = $self->tag;
@@ -67,7 +72,7 @@ sub before_release {
 
 sub after_release {
     my $self = shift;
-    my $git  = Git::Wrapper->new('.');
+    my $git  = Git::Wrapper->new( $self->repo_root );
 
     my @opts;
     push @opts, ( '-m' => _format_tag($self->tag_message, $self) )

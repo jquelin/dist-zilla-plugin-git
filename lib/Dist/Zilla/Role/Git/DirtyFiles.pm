@@ -10,6 +10,7 @@ use Moose::Autobox;
 use MooseX::Has::Sugar;
 use MooseX::Types::Moose qw{ ArrayRef Str };
 
+use List::Util 'first';
 
 # -- attributes
 
@@ -62,10 +63,16 @@ sub list_dirty_files
 {
   my ($self, $git, $listAllowed) = @_;
 
-  my %allowed = map { $_ => 1 } $self->allow_dirty->flatten;
+  my @allowed = map { qr/${_}$/ } $self->allow_dirty->flatten;
 
-  return grep { $allowed{$_} ? $listAllowed : !$listAllowed }
-      $git->ls_files( { modified=>1, deleted=>1 } );
+  return grep { 
+      my $file = $_; 
+      if ( first { $file =~ $_ } @allowed ) { 
+          $listAllowed 
+      } else { 
+          !$listAllowed 
+      } 
+  } $git->ls_files( { modified=>1, deleted=>1 } );
 } # end list_dirty_files
 
 

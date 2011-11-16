@@ -11,6 +11,7 @@ use MooseX::Has::Sugar;
 use MooseX::Types::Moose qw{ ArrayRef Str };
 
 with 'Dist::Zilla::Role::AfterRelease';
+with 'Dist::Zilla::Plugin::Git::Role::Repo';
 
 sub mvp_multivalue_args { qw(push_to) }
 
@@ -26,7 +27,7 @@ has push_to => (
 
 sub after_release {
     my $self = shift;
-    my $git  = Git::Wrapper->new('.');
+    my $git  = Git::Wrapper->new( $self->repo_root );
 
     # push everything on remote branch
     for my $remote ( @{ $self->push_to } ) { 

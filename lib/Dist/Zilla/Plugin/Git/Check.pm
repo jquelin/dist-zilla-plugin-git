@@ -10,13 +10,15 @@ use Moose;
 
 with 'Dist::Zilla::Role::BeforeRelease';
 with 'Dist::Zilla::Role::Git::DirtyFiles';
+with 'Dist::Zilla::Plugin::Git::Role::Repo';
 
 
 # -- public methods
 
 sub before_release {
     my $self = shift;
-    my $git = Git::Wrapper->new('.');
+
+    my $git = Git::Wrapper->new( $self->repo_root );
     my @output;
 
     # fetch current branch
