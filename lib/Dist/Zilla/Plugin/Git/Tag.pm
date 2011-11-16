@@ -58,9 +58,6 @@ sub _build_tag
 
 sub before_release {
     my $self = shift;
-    use Cwd;
-    warn "tag before release " . $self->repo_root . "\n";
-    warn "cwd = " . getcwd . "\n";
 
     my $git  = Git::Wrapper->new( $self->repo_root );
 

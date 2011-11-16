@@ -31,7 +31,7 @@ sub provide_version {
 
   local $/ = "\n"; # Force record separator to be single newline
 
-  my $git  = Git::Wrapper->new( $self->repo_dir );
+  my $git  = Git::Wrapper->new( $self->repo_root );
   my $regexp = $self->version_regexp;
 
   my @tags = $git->tag;
