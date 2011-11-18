@@ -11,7 +11,7 @@ use warnings;
 
 package Dist::Zilla::Plugin::Git::NextVersion;
 {
-  $Dist::Zilla::Plugin::Git::NextVersion::VERSION = '1.112510';
+  $Dist::Zilla::Plugin::Git::NextVersion::VERSION = '1.113220';
 }
 # ABSTRACT: provide a version number by bumping the last git release tag
 
@@ -24,6 +24,7 @@ use Moose;
 use namespace::autoclean 0.09;
 
 with 'Dist::Zilla::Role::VersionProvider';
+with 'Dist::Zilla::Role::Git::Repo';
 
 # -- attributes
 
@@ -41,7 +42,7 @@ sub provide_version {
 
   local $/ = "\n"; # Force record separator to be single newline
 
-  my $git  = Git::Wrapper->new('.');
+  my $git  = Git::Wrapper->new( $self->repo_root );
   my $regexp = $self->version_regexp;
 
   my @tags = $git->tag;
@@ -75,7 +76,7 @@ Dist::Zilla::Plugin::Git::NextVersion - provide a version number by bumping the 
 
 =head1 VERSION
 
-version 1.112510
+version 1.113220
 
 =head1 SYNOPSIS
 

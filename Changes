@@ -1,5 +1,8 @@
 Revision history for Dist::Zilla::Plugin::Git
 
+1.113220  2011-11-18 09:12:51 Europe/Paris
+ - fix gh#19 - allow to specify alternate repository root (mike friedman)
+
 1.112510  2011-09-08 13:45:01 Europe/Paris
  - fix rt#70805 - remove unneeded tmp directory in tarball
 

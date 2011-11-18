@@ -12,7 +12,7 @@ use warnings;
 
 package Dist::Zilla::Plugin::Git::CommitBuild;
 {
-  $Dist::Zilla::Plugin::Git::CommitBuild::VERSION = '1.112510';
+  $Dist::Zilla::Plugin::Git::CommitBuild::VERSION = '1.113220';
 }
 # ABSTRACT: checkin build results on separate branch
 
@@ -45,6 +45,7 @@ use String::Formatter (
 );
 
 with 'Dist::Zilla::Role::AfterBuild', 'Dist::Zilla::Role::AfterRelease';
+with 'Dist::Zilla::Role::Git::Repo';
 
 # -- attributes
 
@@ -83,7 +84,7 @@ sub _commit_build {
     return unless $branch;
 
     my $tmp_dir = File::Temp->newdir( CLEANUP => 1) ;
-    my $src     = Git::Wrapper->new('.');
+    my $src     = Git::Wrapper->new( $self->repo_root );
     $self->_git($src);
 
     my $dir = rel2abs( $self->build_root );
@@ -96,7 +97,7 @@ sub _commit_build {
 
         local $CWD = $dir;
 
-        my $write_tree_repo = Git::Wrapper->new('.');
+        my $write_tree_repo = Git::Wrapper->new( $self->repo_root );
 
         $write_tree_repo->add({ v => 1, force => 1}, '.' );
         ($write_tree_repo->write_tree)[0];
@@ -148,7 +149,7 @@ Dist::Zilla::Plugin::Git::CommitBuild - checkin build results on separate branch
 
 =head1 VERSION
 
-version 1.112510
+version 1.113220
 
 =head1 SYNOPSIS
 

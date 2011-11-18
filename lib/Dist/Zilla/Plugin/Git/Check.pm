@@ -12,7 +12,7 @@ use warnings;
 
 package Dist::Zilla::Plugin::Git::Check;
 {
-  $Dist::Zilla::Plugin::Git::Check::VERSION = '1.112510';
+  $Dist::Zilla::Plugin::Git::Check::VERSION = '1.113220';
 }
 # ABSTRACT: check your git repository before releasing
 
@@ -21,13 +21,15 @@ use Moose;
 
 with 'Dist::Zilla::Role::BeforeRelease';
 with 'Dist::Zilla::Role::Git::DirtyFiles';
+with 'Dist::Zilla::Role::Git::Repo';
 
 
 # -- public methods
 
 sub before_release {
     my $self = shift;
-    my $git = Git::Wrapper->new('.');
+
+    my $git = Git::Wrapper->new( $self->repo_root );
     my @output;
 
     # fetch current branch
@@ -78,7 +80,7 @@ Dist::Zilla::Plugin::Git::Check - check your git repository before releasing
 
 =head1 VERSION
 
-version 1.112510
+version 1.113220
 
 =head1 SYNOPSIS
 

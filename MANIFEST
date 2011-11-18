@@ -24,6 +24,8 @@ corpus/push-multi/Changes
 corpus/push-multi/dist.ini
 corpus/push/Changes
 corpus/push/dist.ini
+corpus/repo-dir/Changes
+corpus/repo-dir/dist.ini
 corpus/tag-signed/Changes
 corpus/tag-signed/dist.ini
 corpus/tag/Changes
@@ -45,6 +47,7 @@ lib/Dist/Zilla/Plugin/Git/Push.pm
 lib/Dist/Zilla/Plugin/Git/Tag.pm
 lib/Dist/Zilla/PluginBundle/Git.pm
 lib/Dist/Zilla/Role/Git/DirtyFiles.pm
+lib/Dist/Zilla/Role/Git/Repo.pm
 t/00-compile.t
 t/000-report-versions-tiny.t
 t/check.t
@@ -61,6 +64,7 @@ t/release-kwalitee.t
 t/release-minimum-version.t
 t/release-pod-coverage.t
 t/release-pod-syntax.t
+t/repo-dir.t
 t/tag-signed.t
 t/tag.t
 t/version-default.t

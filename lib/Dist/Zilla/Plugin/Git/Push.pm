@@ -12,7 +12,7 @@ use warnings;
 
 package Dist::Zilla::Plugin::Git::Push;
 {
-  $Dist::Zilla::Plugin::Git::Push::VERSION = '1.112510';
+  $Dist::Zilla::Plugin::Git::Push::VERSION = '1.113220';
 }
 # ABSTRACT: push current branch
 
@@ -22,6 +22,7 @@ use MooseX::Has::Sugar;
 use MooseX::Types::Moose qw{ ArrayRef Str };
 
 with 'Dist::Zilla::Role::AfterRelease';
+with 'Dist::Zilla::Role::Git::Repo';
 
 sub mvp_multivalue_args { qw(push_to) }
 
@@ -37,7 +38,7 @@ has push_to => (
 
 sub after_release {
     my $self = shift;
-    my $git  = Git::Wrapper->new('.');
+    my $git  = Git::Wrapper->new( $self->repo_root );
 
     # push everything on remote branch
     for my $remote ( @{ $self->push_to } ) { 
@@ -59,7 +60,7 @@ Dist::Zilla::Plugin::Git::Push - push current branch
 
 =head1 VERSION
 
-version 1.112510
+version 1.113220
 
 =head1 SYNOPSIS
 
