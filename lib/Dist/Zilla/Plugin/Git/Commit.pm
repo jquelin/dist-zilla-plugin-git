@@ -71,7 +71,7 @@ sub after_release {
     return unless @output;    
 
     # write commit message in a temp file
-    my ($fh, $filename) = tempfile( getcwd . '/DZP-git.XXXX', UNLINK => 0 );
+    my ($fh, $filename) = tempfile( getcwd . '/DZP-git.XXXX', UNLINK => 1 );
     print $fh $self->get_commit_message;
     close $fh;
 
