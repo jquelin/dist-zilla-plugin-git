@@ -4,7 +4,7 @@
       "Jerome Quelin"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 4.300003, CPAN::Meta::Converter version 2.112621",
+   "generated_by" : "Dist::Zilla version 4.300005, CPAN::Meta::Converter version 2.112621",
    "license" : [
       "perl_5"
    ],
@@ -76,47 +76,47 @@
    "provides" : {
       "Dist::Zilla::Plugin::Git" : {
          "file" : "lib/Dist/Zilla/Plugin/Git.pm",
-         "version" : "1.113220"
+         "version" : "1.113560"
       },
       "Dist::Zilla::Plugin::Git::Check" : {
          "file" : "lib/Dist/Zilla/Plugin/Git/Check.pm",
-         "version" : "1.113220"
+         "version" : "1.113560"
       },
       "Dist::Zilla::Plugin::Git::Commit" : {
          "file" : "lib/Dist/Zilla/Plugin/Git/Commit.pm",
-         "version" : "1.113220"
+         "version" : "1.113560"
       },
       "Dist::Zilla::Plugin::Git::CommitBuild" : {
          "file" : "lib/Dist/Zilla/Plugin/Git/CommitBuild.pm",
-         "version" : "1.113220"
+         "version" : "1.113560"
       },
       "Dist::Zilla::Plugin::Git::Init" : {
          "file" : "lib/Dist/Zilla/Plugin/Git/Init.pm",
-         "version" : "1.113220"
+         "version" : "1.113560"
       },
       "Dist::Zilla::Plugin::Git::NextVersion" : {
          "file" : "lib/Dist/Zilla/Plugin/Git/NextVersion.pm",
-         "version" : "1.113220"
+         "version" : "1.113560"
       },
       "Dist::Zilla::Plugin::Git::Push" : {
          "file" : "lib/Dist/Zilla/Plugin/Git/Push.pm",
-         "version" : "1.113220"
+         "version" : "1.113560"
       },
       "Dist::Zilla::Plugin::Git::Tag" : {
          "file" : "lib/Dist/Zilla/Plugin/Git/Tag.pm",
-         "version" : "1.113220"
+         "version" : "1.113560"
       },
       "Dist::Zilla::PluginBundle::Git" : {
          "file" : "lib/Dist/Zilla/PluginBundle/Git.pm",
-         "version" : "1.113220"
+         "version" : "1.113560"
       },
       "Dist::Zilla::Role::Git::DirtyFiles" : {
          "file" : "lib/Dist/Zilla/Role/Git/DirtyFiles.pm",
-         "version" : "1.113220"
+         "version" : "1.113560"
       },
       "Dist::Zilla::Role::Git::Repo" : {
          "file" : "lib/Dist/Zilla/Role/Git/Repo.pm",
-         "version" : "1.113220"
+         "version" : "1.113560"
       }
    },
    "release_status" : "stable",
@@ -133,23 +133,23 @@
       },
       "x_MailingList" : "http://www.listbox.com/subscribe/?list_id=139292"
    },
-   "version" : "1.113220",
+   "version" : "1.113560",
    "x_Dist_Zilla" : {
       "plugins" : [
          {
             "class" : "Dist::Zilla::Plugin::MetaResources",
             "name" : "MetaResources",
-            "version" : "4.300003"
+            "version" : "4.300005"
          },
          {
             "class" : "Dist::Zilla::Plugin::AutoVersion",
             "name" : "@JQUELIN/AutoVersion",
-            "version" : "4.300003"
+            "version" : "4.300005"
          },
          {
             "class" : "Dist::Zilla::Plugin::GatherDir",
             "name" : "@JQUELIN/GatherDir",
-            "version" : "4.300003"
+            "version" : "4.300005"
          },
          {
             "class" : "Dist::Zilla::Plugin::CompileTests",
@@ -174,12 +174,12 @@
          {
             "class" : "Dist::Zilla::Plugin::PodCoverageTests",
             "name" : "@JQUELIN/PodCoverageTests",
-            "version" : "4.300003"
+            "version" : "4.300005"
          },
          {
             "class" : "Dist::Zilla::Plugin::PodSyntaxTests",
             "name" : "@JQUELIN/PodSyntaxTests",
-            "version" : "4.300003"
+            "version" : "4.300005"
          },
          {
             "class" : "Dist::Zilla::Plugin::ReportVersions::Tiny",
@@ -189,37 +189,37 @@
          {
             "class" : "Dist::Zilla::Plugin::PruneCruft",
             "name" : "@JQUELIN/PruneCruft",
-            "version" : "4.300003"
+            "version" : "4.300005"
          },
          {
             "class" : "Dist::Zilla::Plugin::PruneFiles",
             "name" : "@JQUELIN/PruneFiles",
-            "version" : "4.300003"
+            "version" : "4.300005"
          },
          {
             "class" : "Dist::Zilla::Plugin::ManifestSkip",
             "name" : "@JQUELIN/ManifestSkip",
-            "version" : "4.300003"
+            "version" : "4.300005"
          },
          {
             "class" : "Dist::Zilla::Plugin::AutoPrereqs",
             "name" : "@JQUELIN/AutoPrereqs",
-            "version" : "4.300003"
+            "version" : "4.300005"
          },
          {
             "class" : "Dist::Zilla::Plugin::ExtraTests",
             "name" : "@JQUELIN/ExtraTests",
-            "version" : "4.300003"
+            "version" : "4.300005"
          },
          {
             "class" : "Dist::Zilla::Plugin::NextRelease",
             "name" : "@JQUELIN/NextRelease",
-            "version" : "4.300003"
+            "version" : "4.300005"
          },
          {
             "class" : "Dist::Zilla::Plugin::PkgVersion",
             "name" : "@JQUELIN/PkgVersion",
-            "version" : "4.300003"
+            "version" : "4.300005"
          },
          {
             "class" : "Dist::Zilla::Plugin::PodWeaver",
@@ -234,12 +234,12 @@
          {
             "class" : "Dist::Zilla::Plugin::ExecDir",
             "name" : "@JQUELIN/ExecDir",
-            "version" : "4.300003"
+            "version" : "4.300005"
          },
          {
             "class" : "Dist::Zilla::Plugin::ShareDir",
             "name" : "@JQUELIN/ShareDir",
-            "version" : "4.300003"
+            "version" : "4.300005"
          },
          {
             "class" : "Dist::Zilla::Plugin::Bugtracker",
@@ -264,37 +264,37 @@
          {
             "class" : "Dist::Zilla::Plugin::MetaConfig",
             "name" : "@JQUELIN/MetaConfig",
-            "version" : "4.300003"
+            "version" : "4.300005"
          },
          {
             "class" : "Dist::Zilla::Plugin::License",
             "name" : "@JQUELIN/License",
-            "version" : "4.300003"
+            "version" : "4.300005"
          },
          {
             "class" : "Dist::Zilla::Plugin::MetaYAML",
             "name" : "@JQUELIN/MetaYAML",
-            "version" : "4.300003"
+            "version" : "4.300005"
          },
          {
             "class" : "Dist::Zilla::Plugin::MetaJSON",
             "name" : "@JQUELIN/MetaJSON",
-            "version" : "4.300003"
+            "version" : "4.300005"
          },
          {
             "class" : "Dist::Zilla::Plugin::ModuleBuild",
             "name" : "@JQUELIN/ModuleBuild",
-            "version" : "4.300003"
+            "version" : "4.300005"
          },
          {
             "class" : "Dist::Zilla::Plugin::Readme",
             "name" : "@JQUELIN/Readme",
-            "version" : "4.300003"
+            "version" : "4.300005"
          },
          {
             "class" : "Dist::Zilla::Plugin::Manifest",
             "name" : "@JQUELIN/Manifest",
-            "version" : "4.300003"
+            "version" : "4.300005"
          },
          {
             "class" : "Dist::Zilla::Plugin::CheckChangeLog",
@@ -334,42 +334,42 @@
          {
             "class" : "Dist::Zilla::Plugin::UploadToCPAN",
             "name" : "@JQUELIN/UploadToCPAN",
-            "version" : "4.300003"
+            "version" : "4.300005"
          },
          {
             "class" : "Dist::Zilla::Plugin::PruneFiles",
             "name" : "PruneFiles",
-            "version" : "4.300003"
+            "version" : "4.300005"
          },
          {
             "class" : "Dist::Zilla::Plugin::FinderCode",
             "name" : ":InstallModules",
-            "version" : "4.300003"
+            "version" : "4.300005"
          },
          {
             "class" : "Dist::Zilla::Plugin::FinderCode",
             "name" : ":IncModules",
-            "version" : "4.300003"
+            "version" : "4.300005"
          },
          {
             "class" : "Dist::Zilla::Plugin::FinderCode",
             "name" : ":TestFiles",
-            "version" : "4.300003"
+            "version" : "4.300005"
          },
          {
             "class" : "Dist::Zilla::Plugin::FinderCode",
             "name" : ":ExecFiles",
-            "version" : "4.300003"
+            "version" : "4.300005"
          },
          {
             "class" : "Dist::Zilla::Plugin::FinderCode",
             "name" : ":ShareFiles",
-            "version" : "4.300003"
+            "version" : "4.300005"
          },
          {
             "class" : "Dist::Zilla::Plugin::FinderCode",
             "name" : ":MainModule",
-            "version" : "4.300003"
+            "version" : "4.300005"
          }
       ],
       "zilla" : {
@@ -377,7 +377,7 @@
          "config" : {
             "is_trial" : "0"
          },
-         "version" : "4.300003"
+         "version" : "4.300005"
       }
    }
 }
