@@ -2,6 +2,10 @@ Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
 
+1.113560  2011-12-22 09:47:39 Europe/Paris
+ - make test pass with archive::tar:wrapper (randy stauner)
+ - clean up commit message (randy stauner)
+
 1.113220  2011-11-18 09:12:51 Europe/Paris
  - fix gh#19 - allow to specify alternate repository root (mike friedman)
 
