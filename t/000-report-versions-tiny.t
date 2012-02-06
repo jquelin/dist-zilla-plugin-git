@@ -76,6 +76,7 @@ eval { $v .= pmver('Module::Build','0.3601') };
 eval { $v .= pmver('Moose','any version') };
 eval { $v .= pmver('Moose::Autobox','any version') };
 eval { $v .= pmver('Moose::Role','any version') };
+eval { $v .= pmver('MooseX::AttributeShortcuts','any version') };
 eval { $v .= pmver('MooseX::Has::Sugar','any version') };
 eval { $v .= pmver('MooseX::Types::Moose','any version') };
 eval { $v .= pmver('Path::Class','any version') };

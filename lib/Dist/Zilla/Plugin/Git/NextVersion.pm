@@ -11,7 +11,7 @@ use warnings;
 
 package Dist::Zilla::Plugin::Git::NextVersion;
 {
-  $Dist::Zilla::Plugin::Git::NextVersion::VERSION = '1.113560';
+  $Dist::Zilla::Plugin::Git::NextVersion::VERSION = '1.120370';
 }
 # ABSTRACT: provide a version number by bumping the last git release tag
 
@@ -22,6 +22,7 @@ use version 0.80 ();
 
 use Moose;
 use namespace::autoclean 0.09;
+use MooseX::AttributeShortcuts;
 
 with 'Dist::Zilla::Role::VersionProvider';
 with 'Dist::Zilla::Role::Git::Repo';
@@ -32,13 +33,22 @@ has version_regexp  => ( is => 'ro', isa=>'Str', default => '^v(.+)$' );
 
 has first_version  => ( is => 'ro', isa=>'Str', default => '0.001' );
 
-# -- role implementation
+has _previous_versions => (
 
-sub provide_version {
+    traits  => ['Array'],
+    is      => 'lazy',
+    isa     => 'ArrayRef[Str]',
+    handles => {
+
+        has_previous_versions => 'count',
+        previous_versions     => 'elements',
+        earliest_version      => [ get =>  0 ],
+        last_version          => [ get => -1 ],
+    },
+);
+
+sub _build__previous_versions {
   my ($self) = @_;
-
-  # override (or maybe needed to initialize)
-  return $ENV{V} if exists $ENV{V};
 
   local $/ = "\n"; # Force record separator to be single newline
 
@@ -47,19 +57,32 @@ sub provide_version {
 
   my @tags = $git->tag;
   @tags = map { /$regexp/ ? $1 : () } @tags;
-  return $self->first_version unless @tags;
 
-  # find highest version from tags
-  my ($last_ver) =  sort { version->parse($b) <=> version->parse($a) }
-  grep { eval { version->parse($_) }  } @tags;
+  # find tagged versions; sort least to greatest
+  my @versions =
+    sort { version->parse($a) <=> version->parse($b) }
+    grep { eval { version->parse($_) }  }
+    @tags;
 
-  $self->log_fatal("Could not determine last version from tags")
-  unless defined $last_ver;
+  return [ @versions ];
+}
 
-  my $new_ver = Version::Next::next_version($last_ver);
+# -- role implementation
+
+sub provide_version {
+  my ($self) = @_;
+
+  # override (or maybe needed to initialize)
+  return $ENV{V} if exists $ENV{V};
+
+  return $self->first_version
+    unless $self->has_previous_versions;
+
+  my $last_ver = $self->last_version;
+  my $new_ver  = Version::Next::next_version($last_ver);
   $self->log("Bumping version from $last_ver to $new_ver");
 
-  $self->zilla->version("$new_ver");
+  return "$new_ver";
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -76,7 +99,7 @@ Dist::Zilla::Plugin::Git::NextVersion - provide a version number by bumping the 
 
 =head1 VERSION
 
-version 1.113560
+version 1.120370
 
 =head1 SYNOPSIS
 
