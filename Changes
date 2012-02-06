@@ -2,6 +2,9 @@ Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
 
+1.120370  2012-02-06 09:32:58 Europe/Paris
+ - split version-tags finding logic into own attribute (chris weyl)
+
 1.113560  2011-12-22 09:47:39 Europe/Paris
  - make test pass with archive::tar:wrapper (randy stauner)
  - clean up commit message (randy stauner)
