@@ -18,12 +18,11 @@ which('gpg')
     : plan skip_all => q{gpg couldn't be located in $PATH; required for GPG-signed tags};
 
 # Mock HOME to avoid ~/.gitexcludes from causing problems
-$ENV{HOME} = tempdir( CLEANUP => 1 );
+$ENV{HOME} = $ENV{GNUPGHOME} = tempdir( CLEANUP => 1 );
 delete $ENV{GIT_COMMITTER_NAME};
 delete $ENV{GIT_COMMITTER_EMAIL};
-make_path("$ENV{HOME}/.gnupg");
-cp 'corpus/dzp-git.pub', "$ENV{HOME}/.gnupg/pubring.gpg";
-cp 'corpus/dzp-git.sec', "$ENV{HOME}/.gnupg/secring.gpg";
+cp 'corpus/dzp-git.pub', "$ENV{GNUPGHOME}/pubring.gpg";
+cp 'corpus/dzp-git.sec', "$ENV{GNUPGHOME}/secring.gpg";
 
 # build fake repository
 my $zilla = Dist::Zilla::Tester->from_config({
