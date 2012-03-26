@@ -1,5 +1,8 @@
 Revision history for Dist::Zilla::Plugin::Git
 
+1.120860  2012-03-26 12:18:38 Europe/Paris
+ - fix tag-signed.t test on windows (olivier mengué)
+
 1.120370  2012-02-06 09:32:58 Europe/Paris
  - split version-tags finding logic into own attribute (chris weyl)
 
