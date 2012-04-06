@@ -20,6 +20,7 @@ corpus/commit/Changes
 corpus/commit/dist.ini
 corpus/dzp-git.pub
 corpus/dzp-git.sec
+corpus/gatherdir/lib/DZT/Sample.pm
 corpus/push-multi/Changes
 corpus/push-multi/dist.ini
 corpus/push/Changes
@@ -41,6 +42,7 @@ lib/Dist/Zilla/Plugin/Git.pm
 lib/Dist/Zilla/Plugin/Git/Check.pm
 lib/Dist/Zilla/Plugin/Git/Commit.pm
 lib/Dist/Zilla/Plugin/Git/CommitBuild.pm
+lib/Dist/Zilla/Plugin/Git/GatherDir.pm
 lib/Dist/Zilla/Plugin/Git/Init.pm
 lib/Dist/Zilla/Plugin/Git/NextVersion.pm
 lib/Dist/Zilla/Plugin/Git/Push.pm
@@ -56,6 +58,7 @@ t/commit-build.t
 t/commit-dirtydir.t
 t/commit-ws.t
 t/commit.t
+t/gatherdir.t
 t/lib/Dist/Zilla/Plugin/MyTestArchiver.pm
 t/push-multi.t
 t/push.t

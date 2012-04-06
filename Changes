@@ -1,5 +1,8 @@
 Revision history for Dist::Zilla::Plugin::Git
 
+1.120970  2012-04-06 08:56:03 Europe/Paris
+ - new plugin GatherDir (geoffrey broadwell, ricardo signes)
+
 1.120860  2012-03-26 12:18:38 Europe/Paris
  - fix tag-signed.t test on windows (olivier mengué)
 
