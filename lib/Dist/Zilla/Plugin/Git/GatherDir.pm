@@ -128,3 +128,8 @@ sub _file_from_filename {
 __PACKAGE__->meta->make_immutable;
 no Moose;
 1;
+
+=for Pod::Coverage
+    gather_dir
+    gather_files
+
