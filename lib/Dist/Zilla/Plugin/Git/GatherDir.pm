@@ -3,7 +3,8 @@ package Dist::Zilla::Plugin::Git::GatherDir;
 use Moose;
 use Moose::Autobox;
 use MooseX::Types::Path::Class qw(Dir File);
-with 'Dist::Zilla::Role::FileGatherer';
+with 'Dist::Zilla::Role::Git::Repo';
+extends 'Dist::Zilla::Plugin::GatherDir';
 
 =head1 DESCRIPTION
 
@@ -33,6 +34,7 @@ files into a subdir of your dist, you might write:
 =cut
 
 use Git::Wrapper;
+use File::Find::Rule;
 use File::HomeDir;
 use File::Spec;
 use Path::Class;
@@ -45,29 +47,10 @@ This is the directory in which to look for files.  If not given, it defaults to
 the dist root -- generally, the place where your F<dist.ini> or other
 configuration file is located.
 
-=cut
-
-has root => (
-  is   => 'ro',
-  isa  => Dir,
-  lazy => 1,
-  coerce   => 1,
-  required => 1,
-  default  => sub { shift->zilla->root },
-);
-
 =attr prefix
 
 This parameter can be set to gather all the files found under a common
 directory.  See the L<description|DESCRIPTION> above for an example.
-
-=cut
-
-has prefix => (
-  is  => 'ro',
-  isa => 'Str',
-  default => '',
-);
 
 =attr include_dotfiles
 
@@ -76,15 +59,27 @@ both for files and for directories relative to the C<root>.
 
 In almost all cases, the default value (false) is correct.
 
+=attr follow_symlinks
+
+By default, directories that are symlinks will not be followed. Note on the
+other hand that in all followed directories, files which are symlinks are
+always gathered.
+
+=attr exclude_filename
+
+To exclude certain files from being gathered, use the C<exclude_filename>
+option. This may be used multiple times to specify multiple files to exclude.
+
+=attr exclude_match
+
+This is just like C<exclude_filename> but provides a regular expression
+pattern.  Files matching the pattern are not gathered.  This may be used
+multiple times to specify multiple patterns to exclude.
+
 =cut
 
-has include_dotfiles => (
-  is  => 'ro',
-  isa => 'Bool',
-  default => 0,
-);
 
-sub gather_files {
+override gather_files => sub {
   my ($self) = @_;
 
   my $root = "" . $self->root;
@@ -95,11 +90,21 @@ sub gather_files {
 
   my @files;
   FILE: for my $filename ($git->ls_files) {
+
+    my $file = file($filename)->relative($root);
+
     unless ($self->include_dotfiles) {
-      my $file = file($filename)->relative($root);
       next FILE if $file->basename =~ qr/^\./;
       next FILE if grep { /^\.[^.]/ } $file->dir->dir_list;
     }
+
+    my $exclude_regex = qr/\000/;
+    $exclude_regex = qr/$exclude_regex|$_/
+      for ($self->exclude_match->flatten);
+    # \b\Q$_\E\b should also handle the `eq` check
+    $exclude_regex = qr/$exclude_regex|\b\Q$_\E\b/
+      for ($self->exclude_filename->flatten);
+    next if $file =~ $exclude_regex;
 
     push @files, $self->_file_from_filename($filename);
   }
@@ -114,16 +119,8 @@ sub gather_files {
   }
 
   return;
-}
+};
 
-sub _file_from_filename {
-  my ($self, $filename) = @_;
-
-  return Dist::Zilla::File::OnDisk->new({
-    name => $filename,
-    mode => (stat $filename)[2] & 0755, # kill world-writeability
-  });
-}
 
 __PACKAGE__->meta->make_immutable;
 no Moose;
