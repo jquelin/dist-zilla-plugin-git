@@ -1,6 +1,7 @@
 Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
+ - updated Git::GatherDir plugin to support everything DZ's own GatherDir does
 
 1.120970  2012-04-06 08:56:03 Europe/Paris
  - new plugin GatherDir (geoffrey broadwell, ricardo signes)
