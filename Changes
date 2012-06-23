@@ -2,6 +2,9 @@ Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
 
+1.121750  2012-06-23 19:03:47 Europe/Paris
+ - CommitBuild: Add build to git directly, bypassing the index (chris weyl)
+
 1.121010  2012-04-10 16:47:39 Europe/Paris
  - updated Git::GatherDir plugin to support everything DZ's own GatherDir does
 
