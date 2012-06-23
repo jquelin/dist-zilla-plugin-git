@@ -38,8 +38,10 @@ $git->add( qw{ dist.ini Changes } );
 $git->commit( { message => 'initial commit' } );
 
 $zilla->build;
-ok( $git->rev_parse('-q', '--verify', 'refs/heads/build/master'), 'source repo has the "build/master" branch') or diag $git->branch;
-is( $git->log('build/master'), 2, 'one commit on the build/master branch') or diag $git->branch;
+ok( $git->rev_parse('-q', '--verify', 'refs/heads/build/master'), 'source repo has the "build/master" branch')
+    or diag $git->branch;
+is( scalar $git->log('build/master'), 1, 'one commit on the build/master branch')
+    or diag $git->branch;
 
 chdir $cwd;
 
@@ -81,7 +83,8 @@ $git3->reset('--hard','origin/master');
 append_to_file('dist.ini', "\n\n");
 $git3->commit('-a', '-m', 'commit on master');
 $zilla3->build;
-is( $git3->log('build/master'), 4, 'two commits on the build/master branch') or diag $git3->branch;
+is( scalar $git3->log('build/master'), 2, 'two commits on the build/master branch')
+    or diag $git3->branch;
 
 sub append_to_file {
     my ($file, @lines) = @_;
