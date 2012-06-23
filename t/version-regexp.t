@@ -39,10 +39,10 @@ $zilla = _new_zilla;
 # enter the temp source dir and make it a git dir
 my $wd = pushd( $zilla->tempdir->subdir('source')->stringify );
 
-system "git config --global user.name 'dzp-git test'";
-system "git config --global user.name 'dzp-git\@test'";
 system "git init";
 my $git   = Git::Wrapper->new('.');
+$git->config( 'user.name'  => 'dzp-git test' );
+$git->config( 'user.email' => 'dzp-git@test' );
 $git->add(".");
 $git->commit({ message => 'import' });
 
