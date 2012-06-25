@@ -12,12 +12,13 @@ use warnings;
 
 package Dist::Zilla::Plugin::Git::CommitBuild;
 {
-  $Dist::Zilla::Plugin::Git::CommitBuild::VERSION = '1.121750';
+  $Dist::Zilla::Plugin::Git::CommitBuild::VERSION = '1.121770';
 }
 # ABSTRACT: checkin build results on separate branch
 
 use Git::Wrapper;
 use IPC::Open3;
+use IPC::System::Simple; # required for Fatalised/autodying system
 use File::chdir;
 use File::Spec::Functions qw/ rel2abs catfile /;
 use File::Temp;
@@ -193,7 +194,7 @@ Dist::Zilla::Plugin::Git::CommitBuild - checkin build results on separate branch
 
 =head1 VERSION
 
-version 1.121750
+version 1.121770
 
 =head1 SYNOPSIS
 

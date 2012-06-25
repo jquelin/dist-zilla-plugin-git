@@ -75,6 +75,7 @@ eval { $v .= pmver('File::chdir','any version') };
 eval { $v .= pmver('File::pushd','any version') };
 eval { $v .= pmver('Git::Wrapper','any version') };
 eval { $v .= pmver('IPC::Open3','any version') };
+eval { $v .= pmver('IPC::System::Simple','any version') };
 eval { $v .= pmver('List::Util','any version') };
 eval { $v .= pmver('Module::Build','0.3601') };
 eval { $v .= pmver('Moose','any version') };

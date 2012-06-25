@@ -12,7 +12,7 @@ use warnings;
 
 package Dist::Zilla::Role::Git::DirtyFiles;
 {
-  $Dist::Zilla::Role::Git::DirtyFiles::VERSION = '1.121750';
+  $Dist::Zilla::Role::Git::DirtyFiles::VERSION = '1.121770';
 }
 # ABSTRACT: provide the allow_dirty & changelog attributes
 
@@ -77,7 +77,7 @@ Dist::Zilla::Role::Git::DirtyFiles - provide the allow_dirty & changelog attribu
 
 =head1 VERSION
 
-version 1.121750
+version 1.121770
 
 =head1 DESCRIPTION
 

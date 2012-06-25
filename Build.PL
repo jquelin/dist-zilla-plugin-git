@@ -28,7 +28,7 @@ my %module_build_args = (
     "Jerome Quelin"
   ],
   "dist_name" => "Dist-Zilla-Plugin-Git",
-  "dist_version" => "1.121750",
+  "dist_version" => "1.121770",
   "license" => "perl",
   "module_name" => "Dist::Zilla::Plugin::Git",
   "recommends" => {},
@@ -53,6 +53,7 @@ my %module_build_args = (
     "File::chdir" => 0,
     "Git::Wrapper" => 0,
     "IPC::Open3" => 0,
+    "IPC::System::Simple" => 0,
     "List::Util" => 0,
     "Moose" => 0,
     "Moose::Autobox" => 0,

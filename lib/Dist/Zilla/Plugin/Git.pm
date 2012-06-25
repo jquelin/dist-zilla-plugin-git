@@ -12,7 +12,7 @@ use warnings;
 
 package Dist::Zilla::Plugin::Git;
 {
-  $Dist::Zilla::Plugin::Git::VERSION = '1.121750';
+  $Dist::Zilla::Plugin::Git::VERSION = '1.121770';
 }
 # ABSTRACT: update your git repository after release
 
@@ -28,7 +28,7 @@ Dist::Zilla::Plugin::Git - update your git repository after release
 
 =head1 VERSION
 
-version 1.121750
+version 1.121770
 
 =head1 DESCRIPTION
 
