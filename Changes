@@ -2,6 +2,9 @@ Revision history for Dist::Zilla::Plugin::Git
 
 {{$NEXT}}
 
+1.121770  2012-06-25 16:47:30 Europe/Paris
+ - CommitBuild: add missing module
+
 1.121750  2012-06-23 19:03:47 Europe/Paris
  - CommitBuild: Add build to git directly, bypassing the index (chris weyl)
 
