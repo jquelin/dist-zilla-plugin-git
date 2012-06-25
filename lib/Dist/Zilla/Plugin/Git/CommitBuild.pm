@@ -7,6 +7,7 @@ package Dist::Zilla::Plugin::Git::CommitBuild;
 
 use Git::Wrapper;
 use IPC::Open3;
+use IPC::System::Simple; # required for Fatalised/autodying system
 use File::chdir;
 use File::Spec::Functions qw/ rel2abs catfile /;
 use File::Temp;
